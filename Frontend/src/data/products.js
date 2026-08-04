@@ -1,0 +1,68 @@
+const products = [
+  {
+    id: 1,
+    name: "Premium Betta Fish",
+    price: 25.0,
+    category: "fish",
+    img: "https://images.unsplash.com/photo-1495594059084-33752639b9c3?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Fantail Goldfish",
+    price: 15.0,
+    category: "fish",
+    img: "https://media.istockphoto.com/id/531020735/photo/aquarium-native-gold-fish.jpg?s=612x612&w=0&k=20&c=xlTCgjaOffc4Ra_sQxjXB5zak2bs_UjThKjg3zV7C4Q=",
+    rating: 4,
+  },
+  {
+    id: 3,
+    name: "Platinum Butterfly Koi",
+    price: 120.0,
+    category: "fish",
+    img: "https://i.pinimg.com/1200x/41/35/47/4135476a3e426d699761a1419016aba2.jpg",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "Symphysodon Discus",
+    price: 85.0,
+    category: "fish",
+    img: "https://i.pinimg.com/1200x/f7/43/71/f743710e49d04d0cfe78cf57c3909172.jpg",
+    rating: 5,
+  },
+  {
+    id: 5,
+    name: "Purple Tang (Marine)",
+    price: 65.0,
+    category: "fish",
+    img: "https://i.pinimg.com/736x/28/ad/ce/28adced75b0f6e1368e36ba110b5b5c4.jpg",
+    rating: 5,
+  },
+  {
+    id: 6,
+    name: "Rimless Planted Tank",
+    price: 85.0,
+    category: "tanks",
+    img: "https://i.pinimg.com/1200x/19/06/86/190686c3cd719c95741aaf4ba3bcbab7.jpg",
+    rating: 5,
+  },
+  {
+    id: 7,
+    name: "Live Coral Frag",
+    price: 22.0,
+    category: "tanks",
+    img: "https://i.pinimg.com/1200x/55/e1/a2/55e1a290c77acb307e82db3782806d20.jpg",
+    rating: 4,
+  },
+  {
+    id: 8,
+    name: "Aquarium Starter Kit",
+    price: 45.0,
+    category: "tanks",
+    img: "https://m.media-amazon.com/images/I/81aTC1IV+6L.jpg",
+    rating: 4,
+  },
+];
+
+export default products;
