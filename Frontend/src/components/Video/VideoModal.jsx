@@ -1,3 +1,5 @@
+import "./Video.css";
+
 function VideoModal({ show, onClose }) {
   if (!show) return null;
 

@@ -1,3 +1,5 @@
+import "./Footer.css";
+
 import {
   FaFishFins,
   FaFacebookF,
@@ -14,7 +16,8 @@ function Footer() {
       <div className="container footer-grid">
         <div className="footer-brand">
           <h3>
-            <FaFishFins /> AquaLife
+            <FaFishFins />
+            <span>AquaLife</span>
           </h3>
 
           <p>
@@ -23,15 +26,30 @@ function Footer() {
           </p>
 
           <div className="social-links">
-            <a href="#">
+            <a
+              href="#"
+              aria-label="Facebook"
+              // target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaFacebookF />
             </a>
 
-            <a href="#">
+            <a
+              href="#"
+              aria-label="Twitter"
+              // target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaTwitter />
             </a>
 
-            <a href="#">
+            <a
+              href="#"
+              aria-label="Instagram"
+              // target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaInstagram />
             </a>
           </div>
@@ -63,17 +81,24 @@ function Footer() {
           <h4>Contact Us</h4>
 
           <p>
-            <FaLocationDot /> Yari Road, Versova,
-            Andheri West, Mumbai,
-            Maharashtra – 400061
+            <FaLocationDot />
+
+            <span>
+              Yari Road, Versova, Andheri West,
+              Mumbai, Maharashtra – 400061
+            </span>
           </p>
 
           <p>
-            <FaPhone /> +91 98765 11122
+            <FaPhone />
+
+            <span>+91 98765 11122</span>
           </p>
 
           <p>
-            <FaEnvelope /> aqualife@gmail.com
+            <FaEnvelope />
+
+            <span>support@aqualife.com</span>
           </p>
         </div>
       </div>

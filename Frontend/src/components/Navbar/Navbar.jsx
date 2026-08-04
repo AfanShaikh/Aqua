@@ -1,3 +1,5 @@
+import "./Navbar.css";
+
 import { useState } from "react";
 import {
   FaFishFins,

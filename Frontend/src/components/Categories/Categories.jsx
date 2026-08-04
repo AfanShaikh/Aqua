@@ -1,3 +1,5 @@
+import "./Categories.css";
+
 import FadeUp from "../FadeUp/FadeUp";
 
 function Categories() {
@@ -12,8 +14,8 @@ function Categories() {
         </h2>
       </FadeUp>
 
-      <FadeUp>
-        <div className="category-grid">
+      <div className="category-grid">
+        <FadeUp>
           <div className="category-card">
             <img
               src="https://cdn.britannica.com/29/121829-050-911F77EC/freshwater-aquarium.jpg"
@@ -30,7 +32,9 @@ function Categories() {
               Explore
             </a>
           </div>
+        </FadeUp>
 
+        <FadeUp>
           <div className="category-card">
             <img
               src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=500&auto=format&fit=crop"
@@ -47,7 +51,9 @@ function Categories() {
               Explore
             </a>
           </div>
+        </FadeUp>
 
+        <FadeUp>
           <div className="category-card">
             <img
               src="https://m.media-amazon.com/images/I/51L3vha5VyL._SY300_SX300_QL70_FMwebp_.jpg"
@@ -64,8 +70,8 @@ function Categories() {
               Explore
             </a>
           </div>
-        </div>
-      </FadeUp>
+        </FadeUp>
+      </div>
     </section>
   );
 }

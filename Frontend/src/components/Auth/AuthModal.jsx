@@ -1,4 +1,6 @@
-import { useState } from "react";
+import "./Auth.css";
+
+import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
 import LoginForm from "./LoginForm";
@@ -8,8 +10,13 @@ function AuthModal({
   show,
   onClose,
 }) {
-  const [isLogin, setIsLogin] =
-    useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if (show) {
+      setIsLogin(false);
+    }
+  }, [show]);
 
   if (!show) {
     return null;
@@ -21,49 +28,27 @@ function AuthModal({
       onClick={onClose}
     >
       <div
-        className="auth-modal"
+        className="auth-panel"
         onClick={(event) =>
           event.stopPropagation()
         }
       >
         <button
-          className="auth-close"
+          className="close-auth"
           onClick={onClose}
         >
           <FaTimes />
         </button>
 
-        <div className="auth-tabs">
-          <button
-            className={`auth-tab ${
-              isLogin ? "active" : ""
-            }`}
-            onClick={() =>
-              setIsLogin(true)
-            }
-          >
-            Login
-          </button>
-
-          <button
-            className={`auth-tab ${
-              !isLogin ? "active" : ""
-            }`}
-            onClick={() =>
-              setIsLogin(false)
-            }
-          >
-            Sign Up
-          </button>
-        </div>
-
-        <div className="auth-body">
-          {isLogin ? (
-            <LoginForm />
-          ) : (
-            <RegisterForm />
-          )}
-        </div>
+        {!isLogin ? (
+          <RegisterForm
+            onSwitch={() => setIsLogin(true)}
+          />
+        ) : (
+          <LoginForm
+            onSwitch={() => setIsLogin(false)}
+          />
+        )}
       </div>
     </div>
   );

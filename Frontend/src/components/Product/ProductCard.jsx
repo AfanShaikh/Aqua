@@ -1,3 +1,5 @@
+import "./Product.css";
+
 import { FaStar } from "react-icons/fa";
 
 function ProductCard({ product, onAddToCart }) {

@@ -1,3 +1,5 @@
+import "./Gallery.css";
+
 function GalleryLightbox({
   show,
   image,

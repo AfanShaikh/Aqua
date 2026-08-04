@@ -1,33 +1,16 @@
-import { useState } from "react";
-import {
-  FaEye,
-  FaEyeSlash,
-  FaGoogle,
-} from "react-icons/fa";
+import "./Auth.css";
 
-function RegisterForm() {
+import { useState } from "react";
+
+function RegisterForm({
+  onSwitch,
+}) {
   const [name, setName] = useState("");
 
   const [email, setEmail] = useState("");
 
   const [password, setPassword] =
     useState("");
-
-  const [
-    confirmPassword,
-    setConfirmPassword,
-  ] = useState("");
-
-  const [showPassword, setShowPassword] =
-    useState(false);
-
-  const [
-    showConfirmPassword,
-    setShowConfirmPassword,
-  ] = useState(false);
-
-  const [acceptTerms, setAcceptTerms] =
-    useState(false);
 
   const [
     subscribeNewsletter,
@@ -40,22 +23,9 @@ function RegisterForm() {
     if (
       !name.trim() ||
       !email.trim() ||
-      !password.trim() ||
-      !confirmPassword.trim()
+      !password.trim()
     ) {
       alert("Please fill in all fields.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-
-    if (!acceptTerms) {
-      alert(
-        "Please accept the Terms & Conditions."
-      );
       return;
     }
 
@@ -74,11 +44,21 @@ function RegisterForm() {
       </h2>
 
       <p className="auth-subtitle">
-        Register to start shopping.
+        Already have an account?{" "}
+        <button
+          type="button"
+          className="auth-link"
+          onClick={onSwitch}
+        >
+          Sign In
+        </button>
       </p>
 
       <div className="auth-field">
-        <label>Full Name</label>
+        <label>
+          Full Name
+          <span>*</span>
+        </label>
 
         <input
           type="text"
@@ -91,11 +71,14 @@ function RegisterForm() {
       </div>
 
       <div className="auth-field">
-        <label>Email Address</label>
+        <label>
+          Email Address
+          <span>*</span>
+        </label>
 
         <input
           type="email"
-          placeholder="Enter your email"
+          placeholder="Enter your email address"
           value={email}
           onChange={(event) =>
             setEmail(event.target.value)
@@ -104,129 +87,58 @@ function RegisterForm() {
       </div>
 
       <div className="auth-field">
-        <label>Password</label>
-
-        <div className="password-wrapper">
-          <input
-            type={
-              showPassword
-                ? "text"
-                : "password"
-            }
-            placeholder="Create password"
-            value={password}
-            onChange={(event) =>
-              setPassword(
-                event.target.value
-              )
-            }
-          />
-
-          <button
-            type="button"
-            className="password-toggle"
-            onClick={() =>
-              setShowPassword(
-                !showPassword
-              )
-            }
-          >
-            {showPassword ? (
-              <FaEyeSlash />
-            ) : (
-              <FaEye />
-            )}
-          </button>
-        </div>
-      </div>
-
-      <div className="auth-field">
-        <label>Confirm Password</label>
-
-        <div className="password-wrapper">
-          <input
-            type={
-              showConfirmPassword
-                ? "text"
-                : "password"
-            }
-            placeholder="Confirm password"
-            value={confirmPassword}
-            onChange={(event) =>
-              setConfirmPassword(
-                event.target.value
-              )
-            }
-          />
-
-          <button
-            type="button"
-            className="password-toggle"
-            onClick={() =>
-              setShowConfirmPassword(
-                !showConfirmPassword
-              )
-            }
-          >
-            {showConfirmPassword ? (
-              <FaEyeSlash />
-            ) : (
-              <FaEye />
-            )}
-          </button>
-        </div>
-      </div>
-
-      <div className="auth-checkboxes">
-        <label className="checkbox-item">
-          <input
-            type="checkbox"
-            checked={acceptTerms}
-            onChange={() =>
-              setAcceptTerms(
-                !acceptTerms
-              )
-            }
-          />
-
-          I accept the Terms &
-          Conditions
+        <label>
+          Create Password
+          <span>*</span>
         </label>
 
-        <label className="checkbox-item">
-          <input
-            type="checkbox"
-            checked={subscribeNewsletter}
-            onChange={() =>
-              setSubscribeNewsletter(
-                !subscribeNewsletter
-              )
-            }
-          />
-
-          Subscribe to newsletter
-        </label>
+        <input
+          type="password"
+          placeholder="Minimum 8 characters"
+          value={password}
+          onChange={(event) =>
+            setPassword(
+              event.target.value
+            )
+          }
+        />
       </div>
+
+      <label className="newsletter-check">
+        <input
+          type="checkbox"
+          checked={subscribeNewsletter}
+          onChange={() =>
+            setSubscribeNewsletter(
+              !subscribeNewsletter
+            )
+          }
+        />
+
+        <span>
+          Send me offers and updates
+          on new aquatic arrivals
+        </span>
+      </label>
 
       <button
         type="submit"
-        className="btn btn-primary auth-btn"
+        className="auth-submit"
       >
-        Create Account
+        CREATE ACCOUNT
       </button>
 
-      <div className="auth-divider">
-        <span>OR</span>
-      </div>
-
-      <button
-        type="button"
-        className="google-btn"
-      >
-        <FaGoogle />
-
-        Continue with Google
-      </button>
+      <p className="auth-terms">
+        By creating an account,
+        you agree to AquaLife's{" "}
+        <a href="#">
+          Terms of Service
+        </a>{" "}
+        and{" "}
+        <a href="#">
+          Privacy Policy
+        </a>.
+      </p>
     </form>
   );
 }

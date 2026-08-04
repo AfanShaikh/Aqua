@@ -1,3 +1,5 @@
+import "./Blog.css";
+
 import { FaCalendar, FaArrowRight } from "react-icons/fa";
 
 function BlogCard({ blog, onReadMore }) {

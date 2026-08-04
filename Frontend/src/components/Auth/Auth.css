@@ -1,0 +1,301 @@
+/* ==========================================================
+   AUTH OVERLAY
+========================================================== */
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: flex-end;
+
+  background: rgba(0, 0, 0, 0.7);
+
+  z-index: 4000;
+}
+
+/* ==========================================================
+   AUTH PANEL
+========================================================== */
+
+.auth-panel {
+  position: relative;
+
+  width: 430px;
+  max-width: 100%;
+  height: 100vh;
+
+  padding: 55px 42px;
+
+  background: var(--white);
+
+  overflow-y: auto;
+
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+
+  animation: slideInRight .35s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================
+   CLOSE BUTTON
+========================================================== */
+
+.close-auth {
+  position: absolute;
+
+  top: 18px;
+  right: 18px;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+
+  border-radius: 50%;
+
+  color: #333;
+
+  font-size: 1.25rem;
+
+  cursor: pointer;
+
+  transition: var(--transition);
+}
+
+.close-auth:hover {
+  color: var(--primary-color);
+  transform: rotate(90deg);
+}
+
+/* ==========================================================
+   FORM
+========================================================== */
+
+.auth-form {
+  margin-top: 30px;
+}
+
+.auth-title {
+  color: #000;
+
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+
+  margin-bottom: 8px;
+}
+
+.auth-subtitle {
+  margin-bottom: 35px;
+
+  color: #666;
+
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.auth-link {
+  background: transparent;
+
+  color: #0056b3;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================
+   FIELD
+========================================================== */
+
+.auth-field {
+  margin-bottom: 24px;
+}
+
+.auth-field label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: .95rem;
+  font-weight: 600;
+
+  color: #333;
+}
+
+.auth-field label span {
+  color: var(--primary-color);
+}
+
+.auth-field input {
+  width: 100%;
+  height: 56px;
+
+  padding: 0 16px;
+
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+
+  font-size: .95rem;
+
+  transition: .3s;
+}
+
+.auth-field input:focus {
+  border-color: var(--primary-color);
+}
+
+/* ==========================================================
+   FORGOT PASSWORD
+========================================================== */
+
+.forgot-wrapper {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: -8px;
+  margin-bottom: 24px;
+}
+
+.forgot-password {
+  background: transparent;
+
+  color: var(--primary-color);
+
+  font-size: .9rem;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================
+   NEWSLETTER
+========================================================== */
+
+.newsletter-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin: 10px 0 28px;
+
+  cursor: pointer;
+
+  font-size: .95rem;
+
+  color: #333;
+
+  line-height: 1.5;
+}
+
+.newsletter-check input {
+  width: auto;
+  margin-top: 3px;
+}
+
+/* ==========================================================
+   BUTTON
+========================================================== */
+
+.auth-submit {
+  width: 100%;
+  height: 56px;
+
+  border-radius: 8px;
+
+  background: var(--primary-color);
+
+  color: var(--white);
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: var(--transition);
+}
+
+.auth-submit:hover {
+  background: var(--primary-hover);
+}
+
+/* ==========================================================
+   TERMS
+========================================================== */
+
+.auth-terms {
+  margin-top: 28px;
+
+  text-align: center;
+
+  font-size: .78rem;
+
+  color: #888;
+
+  line-height: 1.7;
+}
+
+.auth-terms a {
+  color: #0056b3;
+}
+
+.auth-terms a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+.auth-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.auth-panel::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+
+  border-radius: 50px;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:768px) {
+
+  .auth-panel {
+    width: 100%;
+
+    border-radius: 0;
+
+    padding: 40px 25px;
+  }
+
+  .auth-title {
+    font-size: 1.9rem;
+  }
+
+}

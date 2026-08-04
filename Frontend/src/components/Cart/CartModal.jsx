@@ -1,3 +1,5 @@
+import "./Cart.css";
+
 import CartItem from "./CartItem";
 
 function CartModal({
@@ -14,9 +16,7 @@ function CartModal({
   }
 
   const total = cart.reduce(
-    (sum, item) => {
-      return sum + item.price * item.quantity;
-    },
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
 
@@ -31,52 +31,57 @@ function CartModal({
           event.stopPropagation()
         }
       >
-        <span
+        <button
           className="close-modal"
           onClick={onClose}
         >
           &times;
-        </span>
+        </button>
 
-        <h2>Your Cart</h2>
-
-        {cart.length === 0 ? (
-          <div className="empty-cart">
-            <p>Your cart is empty.</p>
+        <div className="cart-body">
+          <div className="cart-header">
+            <h2>Your Cart</h2>
           </div>
-        ) : (
-          <>
-            <div className="cart-items">
-              {cart.map((item) => (
-                <CartItem
-                  key={item.id}
-                  item={item}
-                  onIncrease={onIncrease}
-                  onDecrease={onDecrease}
-                  onRemoveItem={onRemoveItem}
-                />
-              ))}
+
+          {cart.length === 0 ? (
+            <div className="empty-cart">
+              <p>Your cart is empty.</p>
             </div>
+          ) : (
+            <>
+              <div className="cart-items">
+                {cart.map((item) => (
+                  <CartItem
+                    key={item.id}
+                    item={item}
+                    onIncrease={onIncrease}
+                    onDecrease={onDecrease}
+                    onRemoveItem={onRemoveItem}
+                  />
+                ))}
+              </div>
 
-            <hr />
+              <div className="cart-footer">
+                <h3>
+                  Total:
+                  <span>
+                    ${total.toFixed(2)}
+                  </span>
+                </h3>
 
-            <div className="cart-footer">
-              <h3>
-                Total: ${total.toFixed(2)}
-              </h3>
-
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  onClose();
-                  onCheckout();
-                }}
-              >
-                Checkout
-              </button>
-            </div>
-          </>
-        )}
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    onClose();
+                    onCheckout();
+                  }}
+                >
+                  Checkout
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

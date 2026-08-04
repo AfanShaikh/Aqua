@@ -1,7 +1,14 @@
-function Toast({ show, message }) {
+import "./Toast.css";
+
+function Toast({
+  show,
+  message,
+}) {
   return (
     <div
-      className={`toast ${show ? "show" : ""}`}
+      className={`toast ${
+        show ? "show" : ""
+      }`}
     >
       {message}
     </div>

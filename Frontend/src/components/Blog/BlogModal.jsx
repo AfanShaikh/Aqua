@@ -1,3 +1,5 @@
+import "./Blog.css";
+
 function BlogModal({ show, blog, onClose }) {
   if (!show || !blog) {
     return null;

@@ -1,3 +1,5 @@
+import "./Video.css";
+
 import { FaPlay } from "react-icons/fa";
 import FadeUp from "../FadeUp/FadeUp";
 

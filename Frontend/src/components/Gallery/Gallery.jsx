@@ -1,3 +1,5 @@
+import "./Gallery.css";
+
 import FadeUp from "../FadeUp/FadeUp";
 import gallery from "../../data/gallery";
 

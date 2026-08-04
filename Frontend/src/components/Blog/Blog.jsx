@@ -1,3 +1,5 @@
+import "./Blog.css";
+
 import FadeUp from "../FadeUp/FadeUp";
 import blogs from "../../data/blogs";
 import BlogCard from "./BlogCard";

@@ -1,0 +1,43 @@
+/* ==========================================================
+   TOAST
+========================================================== */
+
+.toast {
+  position: fixed;
+
+  top: 25px;
+  right: 25px;
+
+  min-width: 280px;
+  max-width: 380px;
+
+  padding: 15px 22px;
+
+  border-radius: 12px;
+
+  background: var(--secondary-color);
+  color: var(--white);
+
+  border-left: 5px solid var(--primary-color);
+
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  box-shadow: var(--shadow-lg);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translateX(120%);
+
+  transition: var(--transition);
+
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  visibility: visible;
+
+  transform: translateX(0);
+}

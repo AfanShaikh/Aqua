@@ -1,22 +1,31 @@
+import "./BackToTop.css";
+
 import { useEffect, useState } from "react";
-import { FaArrowUp } from "react-icons/fa";
+import { FaArrowUp } from "react-icons/fa6";
 
 function BackToTop() {
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] =
+    useState(false);
 
   useEffect(() => {
     function handleScroll() {
-      if (window.scrollY > 400) {
+      if (window.scrollY > 300) {
         setShowButton(true);
       } else {
         setShowButton(false);
       }
     }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener(
+      "scroll",
+      handleScroll
+    );
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
     };
   }, []);
 
@@ -30,10 +39,10 @@ function BackToTop() {
   return (
     <button
       id="back-to-top"
+      className={
+        showButton ? "show" : ""
+      }
       onClick={scrollToTop}
-      style={{
-        display: showButton ? "flex" : "none",
-      }}
       aria-label="Back To Top"
     >
       <FaArrowUp />

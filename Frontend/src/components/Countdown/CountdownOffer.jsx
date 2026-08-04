@@ -1,3 +1,5 @@
+import "./CountdownOffer.css"
+
 import { useEffect, useState } from "react";
 import FadeUp from "../FadeUp/FadeUp";
 

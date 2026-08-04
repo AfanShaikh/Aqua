@@ -1,26 +1,22 @@
-import { useState } from "react";
-import {
-  FaEye,
-  FaEyeSlash,
-  FaGoogle,
-} from "react-icons/fa";
+import "./Auth.css";
 
-function LoginForm() {
+import { useState } from "react";
+
+function LoginForm({
+  onSwitch,
+}) {
   const [email, setEmail] = useState("");
 
   const [password, setPassword] =
     useState("");
 
-  const [showPassword, setShowPassword] =
-    useState(false);
-
-  const [rememberMe, setRememberMe] =
-    useState(false);
-
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (!email.trim() || !password.trim()) {
+    if (
+      !email.trim() ||
+      !password.trim()
+    ) {
       alert("Please fill in all fields.");
       return;
     }
@@ -34,19 +30,29 @@ function LoginForm() {
       onSubmit={handleSubmit}
     >
       <h2 className="auth-title">
-        Welcome Back
+        Welcome to AquaLife
       </h2>
 
       <p className="auth-subtitle">
-        Login to continue shopping.
+        New here?{" "}
+        <button
+          type="button"
+          className="auth-link"
+          onClick={onSwitch}
+        >
+          Create an account
+        </button>
       </p>
 
       <div className="auth-field">
-        <label>Email Address</label>
+        <label>
+          Email address
+          <span>*</span>
+        </label>
 
         <input
           type="email"
-          placeholder="Enter your email"
+          placeholder="Enter your email address"
           value={email}
           onChange={(event) =>
             setEmail(event.target.value)
@@ -55,57 +61,24 @@ function LoginForm() {
       </div>
 
       <div className="auth-field">
-        <label>Password</label>
-
-        <div className="password-wrapper">
-          <input
-            type={
-              showPassword
-                ? "text"
-                : "password"
-            }
-            placeholder="Enter your password"
-            value={password}
-            onChange={(event) =>
-              setPassword(
-                event.target.value
-              )
-            }
-          />
-
-          <button
-            type="button"
-            className="password-toggle"
-            onClick={() =>
-              setShowPassword(
-                !showPassword
-              )
-            }
-          >
-            {showPassword ? (
-              <FaEyeSlash />
-            ) : (
-              <FaEye />
-            )}
-          </button>
-        </div>
-      </div>
-
-      <div className="auth-options">
-        <label className="remember-me">
-          <input
-            type="checkbox"
-            checked={rememberMe}
-            onChange={() =>
-              setRememberMe(
-                !rememberMe
-              )
-            }
-          />
-
-          Remember me
+        <label>
+          Password
+          <span>*</span>
         </label>
 
+        <input
+          type="password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(event) =>
+            setPassword(
+              event.target.value
+            )
+          }
+        />
+      </div>
+
+      <div className="forgot-wrapper">
         <button
           type="button"
           className="forgot-password"
@@ -116,22 +89,9 @@ function LoginForm() {
 
       <button
         type="submit"
-        className="btn btn-primary auth-btn"
+        className="auth-submit"
       >
-        Login
-      </button>
-
-      <div className="auth-divider">
-        <span>OR</span>
-      </div>
-
-      <button
-        type="button"
-        className="google-btn"
-      >
-        <FaGoogle />
-
-        Continue with Google
+        SIGN IN
       </button>
     </form>
   );

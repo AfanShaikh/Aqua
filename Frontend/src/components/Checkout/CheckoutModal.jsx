@@ -1,109 +1,80 @@
-function CheckoutModal({
-  show,
-  cart,
-  total,
-  onClose,
-  onPlaceOrder,
-}) {
+import "./Checkout.css";
+
+function CheckoutModal({ show, cart, total, onClose, onPlaceOrder }) {
   if (!show) {
     return null;
   }
 
   return (
-    <div
-      className="modal"
-      onClick={onClose}
-    >
+    <div className="modal" onClick={onClose}>
       <div
         className="modal-content checkout-modal"
-        onClick={(event) =>
-          event.stopPropagation()
-        }
+        onClick={(event) => event.stopPropagation()}
       >
-        <span
-          className="close-modal"
-          onClick={onClose}
-        >
+        <span className="close-modal" onClick={onClose}>
           &times;
         </span>
 
-        <h2>Checkout</h2>
+        <div className="checkout-header">
+          <h2>Checkout</h2>
+        </div>
 
         {cart.length === 0 ? (
           <div className="empty-cart">
             <p>Your cart is empty.</p>
           </div>
         ) : (
-          <>
-            <div className="checkout-summary">
-              <h3>Order Summary</h3>
+          <div className="checkout-content">
+            {/* Left Side */}
 
-              {cart.map((item) => (
-                <p
-                  key={item.id}
-                  className="checkout-item"
-                >
-                  <span>
-                    {item.name} × {item.quantity}
-                  </span>
+            <div className="checkout-left">
+              <h3>Shipping Information</h3>
 
-                  <span>
-                    $
-                    {(
-                      item.price *
-                      item.quantity
-                    ).toFixed(2)}
-                  </span>
-                </p>
-              ))}
+              <form
+                className="checkout-form"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  onPlaceOrder();
+                }}
+              >
+                <input type="text" placeholder="Full Name" required />
 
-              <p className="total">
-                <span>Total</span>
+                <input type="email" placeholder="Email Address" required />
 
-                <span>
-                  ${total.toFixed(2)}
-                </span>
-              </p>
+                <input type="tel" placeholder="Phone Number" required />
+
+                <textarea placeholder="Shipping Address" required />
+
+                <button type="submit" className="btn btn-primary">
+                  Place Order
+                </button>
+              </form>
             </div>
 
-            <form
-              className="checkout-form"
-              onSubmit={(event) => {
-                event.preventDefault();
-                onPlaceOrder();
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Full Name"
-                required
-              />
+            {/* Right Side */}
 
-              <input
-                type="email"
-                placeholder="Email Address"
-                required
-              />
+            <div className="checkout-right">
+              <div className="checkout-summary">
+                <h3>Order Summary</h3>
 
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                required
-              />
+                {cart.map((item) => (
+                  <div className="checkout-item" key={item.id}>
+                    <span>
+                      {item.name} × {item.quantity}
+                    </span>
 
-              <textarea
-                placeholder="Shipping Address"
-                required
-              />
+                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  </div>
+                ))}
 
-              <button
-                type="submit"
-                className="btn btn-primary"
-              >
-                Place Order
-              </button>
-            </form>
-          </>
+                <div className="total">
+                  <span>Total</span>
+
+                  <span>${total.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>

@@ -1,3 +1,5 @@
+import "./Product.css";
+
 import { useState } from "react";
 
 import products from "../../data/products";
