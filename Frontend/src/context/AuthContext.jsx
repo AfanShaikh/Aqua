@@ -14,9 +14,16 @@ function AuthProvider({ children }) {
 
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const parsedUser = JSON.parse(savedUser);
+
+        if (parsedUser && parsedUser.id && parsedUser.email) {
+          setUser(parsedUser);
+        } else {
+          localStorage.removeItem(CURRENT_USER_KEY);
+        }
       } catch (error) {
         console.error("Failed to load current user:", error);
+
         localStorage.removeItem(CURRENT_USER_KEY);
       }
     }
@@ -24,7 +31,7 @@ function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  const getUsers = () => {
+  function getUsers() {
     const savedUsers = localStorage.getItem(USERS_KEY);
 
     if (!savedUsers) {
@@ -32,19 +39,23 @@ function AuthProvider({ children }) {
     }
 
     try {
-      return JSON.parse(savedUsers);
+      const users = JSON.parse(savedUsers);
+
+      return Array.isArray(users) ? users : [];
     } catch (error) {
       console.error("Failed to load users:", error);
+
       return [];
     }
-  };
+  }
 
-  const register = ({ name, email, password }) => {
+  function register({ name, email, password }) {
     const users = getUsers();
 
+    const normalizedEmail = email.trim().toLowerCase();
+
     const existingUser = users.find(
-      (existingUser) =>
-        existingUser.email.toLowerCase() === email.toLowerCase()
+      (existingUser) => existingUser.email?.toLowerCase() === normalizedEmail,
     );
 
     if (existingUser) {
@@ -56,17 +67,14 @@ function AuthProvider({ children }) {
 
     const newUser = {
       id: Date.now(),
-      name,
-      email,
+      name: name.trim(),
+      email: normalizedEmail,
       password,
     };
 
     const updatedUsers = [...users, newUser];
 
-    localStorage.setItem(
-      USERS_KEY,
-      JSON.stringify(updatedUsers)
-    );
+    localStorage.setItem(USERS_KEY, JSON.stringify(updatedUsers));
 
     const loggedInUser = {
       id: newUser.id,
@@ -74,10 +82,7 @@ function AuthProvider({ children }) {
       email: newUser.email,
     };
 
-    localStorage.setItem(
-      CURRENT_USER_KEY,
-      JSON.stringify(loggedInUser)
-    );
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(loggedInUser));
 
     setUser(loggedInUser);
 
@@ -86,15 +91,17 @@ function AuthProvider({ children }) {
       message: "Account created successfully.",
       user: loggedInUser,
     };
-  };
+  }
 
-  const login = ({ email, password }) => {
+  function login({ email, password }) {
     const users = getUsers();
 
+    const normalizedEmail = email.trim().toLowerCase();
+
     const existingUser = users.find(
-      (user) =>
-        user.email.toLowerCase() === email.toLowerCase() &&
-        user.password === password
+      (existingUser) =>
+        existingUser.email?.toLowerCase() === normalizedEmail &&
+        existingUser.password === password,
     );
 
     if (!existingUser) {
@@ -110,10 +117,7 @@ function AuthProvider({ children }) {
       email: existingUser.email,
     };
 
-    localStorage.setItem(
-      CURRENT_USER_KEY,
-      JSON.stringify(loggedInUser)
-    );
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(loggedInUser));
 
     setUser(loggedInUser);
 
@@ -122,13 +126,18 @@ function AuthProvider({ children }) {
       message: "Login successful.",
       user: loggedInUser,
     };
-  };
+  }
 
-  const logout = () => {
+  function logout() {
     localStorage.removeItem(CURRENT_USER_KEY);
 
     setUser(null);
-  };
+
+    return {
+      success: true,
+      message: "Logged out successfully.",
+    };
+  }
 
   const value = {
     user,
@@ -139,11 +148,7 @@ function AuthProvider({ children }) {
     logout,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export { AuthContext, AuthProvider };

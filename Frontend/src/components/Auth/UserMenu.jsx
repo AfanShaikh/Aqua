@@ -2,11 +2,15 @@ import { FaUser, FaRightFromBracket } from "react-icons/fa6";
 
 import useAuth from "../../hooks/useAuth";
 
-function UserMenu({ user }) {
+function UserMenu({ user, onLogout }) {
   const { logout } = useAuth();
 
   function handleLogout() {
-    logout();
+    const result = logout();
+
+    if (result.success && onLogout) {
+      onLogout(result.message);
+    }
   }
 
   return (

@@ -1,6 +1,7 @@
 import "./Checkout.css";
 
 import { useEffect, useState } from "react";
+import { FaXmark } from "react-icons/fa6";
 
 import useAuth from "../../hooks/useAuth";
 
@@ -23,33 +24,66 @@ function CheckoutModal({ show, cart, total, onClose, onPlaceOrder }) {
     return null;
   }
 
+  const userName =
+    user?.name ||
+    [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
+    "";
+
+  const userEmail = user?.email || "";
+
   function handleSubmit(event) {
     event.preventDefault();
 
     setError("");
 
-    if (!phone.trim()) {
+    if (!cart.length) {
+      setError("Your cart is empty.");
+      return;
+    }
+
+    const trimmedPhone = phone.trim();
+    const trimmedAddress = address.trim();
+
+    if (!trimmedPhone) {
       setError("Please enter your phone number.");
       return;
     }
 
-    if (!address.trim()) {
+    const phonePattern = /^[0-9+\-\s()]{10,15}$/;
+
+    if (!phonePattern.test(trimmedPhone)) {
+      setError("Please enter a valid phone number.");
+      return;
+    }
+
+    if (!trimmedAddress) {
       setError("Please enter your shipping address.");
+      return;
+    }
+
+    if (trimmedAddress.length < 10) {
+      setError("Please enter a complete shipping address.");
       return;
     }
 
     const order = {
       id: Date.now(),
+
       userId: user?.id || null,
+
       customer: {
-        name: user?.name || "",
-        email: user?.email || "",
-        phone: phone.trim(),
-        address: address.trim(),
+        name: userName,
+        email: userEmail,
+        phone: trimmedPhone,
+        address: trimmedAddress,
       },
+
       items: cart,
+
       total,
+
       status: "PLACED",
+
       createdAt: new Date().toISOString(),
     };
 
@@ -57,63 +91,97 @@ function CheckoutModal({ show, cart, total, onClose, onPlaceOrder }) {
   }
 
   return (
-    <div className="modal" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose}>
       <div
         className="modal-content checkout-modal"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           type="button"
-          className="close-modal"
+          className="checkout-close"
           onClick={onClose}
           aria-label="Close checkout"
         >
-          &times;
+          <FaXmark />
         </button>
 
-        <h2>Checkout</h2>
+        <div className="checkout-header">
+          <h2>Checkout</h2>
+
+          <p>Complete your shipping details to place your order.</p>
+        </div>
 
         {cart.length === 0 ? (
           <div className="empty-cart">
-            <p>Your cart is empty.</p>
+            <h3>Your cart is empty</h3>
+
+            <p>Add some products before proceeding to checkout.</p>
+
+            <button type="button" className="btn btn-primary" onClick={onClose}>
+              Continue Shopping
+            </button>
           </div>
         ) : (
           <div className="checkout-layout">
             <form className="checkout-form" onSubmit={handleSubmit}>
               <h3>Shipping Information</h3>
 
-              {error && <p className="checkout-error">{error}</p>}
+              {error && (
+                <p className="checkout-error" role="alert">
+                  {error}
+                </p>
+              )}
 
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={user?.name || ""}
-                readOnly
-              />
+              <div className="checkout-field">
+                <label htmlFor="checkout-name">Full Name</label>
 
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={user?.email || ""}
-                readOnly
-              />
+                <input
+                  id="checkout-name"
+                  type="text"
+                  value={userName}
+                  readOnly
+                />
+              </div>
 
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                required
-              />
+              <div className="checkout-field">
+                <label htmlFor="checkout-email">Email Address</label>
 
-              <textarea
-                placeholder="Shipping Address"
-                value={address}
-                onChange={(event) => setAddress(event.target.value)}
-                required
-              />
+                <input
+                  id="checkout-email"
+                  type="email"
+                  value={userEmail}
+                  readOnly
+                />
+              </div>
 
-              <button type="submit" className="btn btn-primary">
+              <div className="checkout-field">
+                <label htmlFor="checkout-phone">Phone Number</label>
+
+                <input
+                  id="checkout-phone"
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  autoComplete="tel"
+                  required
+                />
+              </div>
+
+              <div className="checkout-field">
+                <label htmlFor="checkout-address">Shipping Address</label>
+
+                <textarea
+                  id="checkout-address"
+                  placeholder="Enter your complete shipping address"
+                  value={address}
+                  onChange={(event) => setAddress(event.target.value)}
+                  autoComplete="street-address"
+                  required
+                />
+              </div>
+
+              <button type="submit" className="btn btn-primary checkout-submit">
                 Place Order
               </button>
             </form>
@@ -121,21 +189,29 @@ function CheckoutModal({ show, cart, total, onClose, onPlaceOrder }) {
             <div className="checkout-summary">
               <h3>Order Summary</h3>
 
-              {cart.map((item) => (
-                <p key={item.id} className="checkout-item">
-                  <span>
-                    {item.name} × {item.quantity}
-                  </span>
+              <div className="checkout-items">
+                {cart.map((item) => (
+                  <div key={item.id} className="checkout-item">
+                    <div className="checkout-item-info">
+                      <span className="checkout-item-name">{item.name}</span>
 
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
-                </p>
-              ))}
+                      <span className="checkout-item-quantity">
+                        × {item.quantity}
+                      </span>
+                    </div>
 
-              <p className="total">
+                    <span className="checkout-item-price">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="checkout-total">
                 <span>Total</span>
 
                 <span>${total.toFixed(2)}</span>
-              </p>
+              </div>
             </div>
           </div>
         )}

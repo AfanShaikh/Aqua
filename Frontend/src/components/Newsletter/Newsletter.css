@@ -1,32 +1,33 @@
-/* ==========================================================
-   NEWSLETTER
-========================================================== */
-
 #newsletter {
   padding: 80px 0;
+
   background: #f8f9fa;
+
   text-align: center;
 }
 
 .newsletter-container {
   width: 90%;
   max-width: 1200px;
+
   margin: 0 auto;
 }
 
 .newsletter-container h2 {
-  margin-bottom: 12px;
+  margin: 0 0 12px;
+
+  color: var(--secondary-color);
 
   font-size: 2.4rem;
   font-weight: 700;
-
-  color: var(--secondary-color);
 }
 
 .newsletter-container p {
-  margin-bottom: 35px;
+  margin: 0 0 35px;
 
   color: var(--light-text);
+
+  font-size: 0.95rem;
 }
 
 /* ==========================================================
@@ -36,7 +37,9 @@
 #newsletter-form {
   position: relative;
 
+  width: 100%;
   max-width: 500px;
+
   margin: 0 auto;
 }
 
@@ -52,16 +55,32 @@
   outline: none;
 
   background: var(--white);
+
   color: var(--text-color);
 
+  font-family: inherit;
   font-size: 1rem;
 
-  transition: var(--transition);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+#newsletter-form input::placeholder {
+  color: var(--light-text);
+
+  opacity: 0.8;
 }
 
 #newsletter-form input:focus {
   border-color: var(--primary-color);
+
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
 }
+
+/* ==========================================================
+   SUBSCRIBE BUTTON
+========================================================== */
 
 .newsletter-btn {
   position: absolute;
@@ -73,53 +92,137 @@
   height: 50px;
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  padding: 0;
 
   border: none;
   border-radius: 50%;
 
   background: var(--primary-color);
+
   color: var(--white);
 
   cursor: pointer;
 
-  transition: var(--transition);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .newsletter-btn:hover {
   background: var(--primary-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 15px rgba(255, 107, 53, 0.25);
+}
+
+.newsletter-btn:focus-visible {
+  outline: 3px solid rgba(255, 107, 53, 0.3);
+
+  outline-offset: 3px;
+}
+
+.newsletter-btn:active {
+  transform: scale(0.96);
 }
 
 /* ==========================================================
-   MESSAGE
-========================================================== */
-
-#form-message {
-  margin-top: 15px;
-
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.success-msg {
-  color: #28a745;
-}
-
-.error-msg {
-  color: #dc3545;
-}
-
-/* ==========================================================
-   RESPONSIVE
+   TABLET
 ========================================================== */
 
 @media (max-width: 768px) {
-  #newsletter-form {
-    max-width: 100%;
+  #newsletter {
+    padding: 65px 0;
+  }
+
+  .newsletter-container {
+    width: 90%;
   }
 
   .newsletter-container h2 {
     font-size: 2rem;
+  }
+
+  .newsletter-container p {
+    margin-bottom: 28px;
+  }
+
+  #newsletter-form {
+    max-width: 100%;
+  }
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 500px) {
+  #newsletter {
+    padding: 55px 0;
+  }
+
+  .newsletter-container {
+    width: 92%;
+  }
+
+  .newsletter-container h2 {
+    font-size: 1.7rem;
+  }
+
+  .newsletter-container p {
+    margin-bottom: 24px;
+
+    font-size: 0.9rem;
+  }
+
+  #newsletter-form input {
+    height: 54px;
+
+    padding: 0 65px 0 18px;
+
+    font-size: 0.9rem;
+  }
+
+  .newsletter-btn {
+    top: 4px;
+    right: 4px;
+
+    width: 46px;
+    height: 46px;
+
+    font-size: 0.85rem;
+  }
+}
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width: 380px) {
+  .newsletter-container {
+    width: 94%;
+  }
+
+  .newsletter-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .newsletter-container p {
+    font-size: 0.85rem;
+  }
+
+  #newsletter-form input {
+    height: 50px;
+
+    padding-left: 16px;
+  }
+
+  .newsletter-btn {
+    width: 42px;
+    height: 42px;
   }
 }

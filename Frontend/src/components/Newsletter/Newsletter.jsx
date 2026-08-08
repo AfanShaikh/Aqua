@@ -2,26 +2,38 @@ import "./Newsletter.css";
 
 import { useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
+
 import FadeUp from "../FadeUp/FadeUp";
 
-function Newsletter() {
+function Newsletter({ onToast }) {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [messageClass, setMessageClass] = useState("");
+
+  function showToast(message) {
+    if (onToast) {
+      onToast(message);
+    }
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
 
+    const trimmedEmail = email.trim();
+
+    if (!trimmedEmail) {
+      showToast("Please enter your email address.");
+      return;
+    }
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (emailPattern.test(email.trim())) {
-      setMessage("Thank you for subscribing!");
-      setMessageClass("success-msg");
-      setEmail("");
-    } else {
-      setMessage("Please enter a valid email address.");
-      setMessageClass("error-msg");
+    if (!emailPattern.test(trimmedEmail)) {
+      showToast("Please enter a valid email address.");
+      return;
     }
+
+    setEmail("");
+
+    showToast("Thank you for subscribing!");
   }
 
   return (
@@ -32,35 +44,24 @@ function Newsletter() {
 
           <p>Get latest updates and offers.</p>
 
-          <form
-            id="newsletter-form"
-            onSubmit={handleSubmit}
-          >
+          <form id="newsletter-form" onSubmit={handleSubmit}>
             <input
               type="email"
               placeholder="Enter your email address..."
               value={email}
-              onChange={(event) =>
-                setEmail(event.target.value)
-              }
+              onChange={(event) => setEmail(event.target.value)}
+              autoComplete="email"
+              aria-label="Email address"
             />
 
             <button
               type="submit"
               className="newsletter-btn"
+              aria-label="Subscribe to newsletter"
             >
               <FaPaperPlane />
             </button>
           </form>
-
-          {message && (
-            <div
-              id="form-message"
-              className={messageClass}
-            >
-              {message}
-            </div>
-          )}
         </div>
       </FadeUp>
     </section>

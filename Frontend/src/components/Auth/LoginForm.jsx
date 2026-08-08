@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import useAuth from "../../hooks/useAuth";
 
-function LoginForm({ onSwitch, onSuccess }) {
+function LoginForm({ onSwitch, onSuccess, onToast }) {
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -18,7 +18,14 @@ function LoginForm({ onSwitch, onSuccess }) {
     setError("");
 
     if (!email.trim() || !password.trim()) {
-      setError("Please fill in all required fields.");
+      const message = "Please fill in all required fields.";
+
+      setError(message);
+
+      if (onToast) {
+        onToast(message);
+      }
+
       return;
     }
 
@@ -28,59 +35,90 @@ function LoginForm({ onSwitch, onSuccess }) {
     });
 
     if (!result.success) {
-      setError(result.message);
+      const message = result.message || "Invalid email or password.";
+
+      setError(message);
+
+      if (onToast) {
+        onToast(message);
+      }
+
       return;
     }
 
     setEmail("");
     setPassword("");
 
-    onSuccess();
+    onSuccess(result.message || "Login successful.");
   }
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
-      <h2 className="auth-title">Welcome to AquaLife</h2>
+      <h1 className="auth-title">Welcome to AquaLife</h1>
 
       <p className="auth-subtitle">
         New here?{" "}
-        <button type="button" className="auth-link" onClick={onSwitch}>
+        <button
+          type="button"
+          className="auth-link"
+          onClick={onSwitch}
+        >
           Create an account
         </button>
       </p>
 
-      {error && <p className="auth-message auth-error">{error}</p>}
+      {error && (
+        <p className="auth-message auth-error" role="alert">
+          {error}
+        </p>
+      )}
 
       <div className="auth-field">
-        <label>
+        <label htmlFor="login-email">
           Email address
           <span>*</span>
         </label>
 
         <input
+          id="login-email"
           type="email"
           placeholder="Enter your email address"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+          autoComplete="email"
+          required
         />
       </div>
 
       <div className="auth-field">
-        <label>
+        <label htmlFor="login-password">
           Password
           <span>*</span>
         </label>
 
         <input
+          id="login-password"
           type="password"
           placeholder="Enter your password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          autoComplete="current-password"
+          required
         />
       </div>
 
       <div className="forgot-wrapper">
-        <button type="button" className="forgot-password">
+        <button
+          type="button"
+          className="forgot-password"
+          onClick={() => {
+            if (onToast) {
+              onToast(
+                "Password recovery is not available yet.",
+              );
+            }
+          }}
+        >
           Forgot Password?
         </button>
       </div>

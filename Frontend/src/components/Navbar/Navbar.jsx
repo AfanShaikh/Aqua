@@ -1,12 +1,26 @@
 import "./Navbar.css";
 
 import { useState } from "react";
-import { FaFishFins, FaCartShopping, FaBars, FaXmark } from "react-icons/fa6";
+
+import {
+  FaFishFins,
+  FaCartShopping,
+  FaHeart,
+  FaBars,
+  FaXmark,
+} from "react-icons/fa6";
 
 import useAuth from "../../hooks/useAuth";
 import UserMenu from "../Auth/UserMenu";
 
-function Navbar({ cartCount = 0, onOpenCart, onOpenAuth }) {
+function Navbar({
+  cartCount = 0,
+  wishlistCount = 0,
+  onOpenCart,
+  onOpenWishlist,
+  onOpenAuth,
+  onLogout,
+}) {
   const { user, isAuthenticated } = useAuth();
 
   const [showMenu, setShowMenu] = useState(false);
@@ -16,7 +30,39 @@ function Navbar({ cartCount = 0, onOpenCart, onOpenAuth }) {
   }
 
   function toggleMenu() {
-    setShowMenu(!showMenu);
+    setShowMenu((current) => !current);
+  }
+
+  function handleCartClick() {
+    closeMenu();
+
+    if (onOpenCart) {
+      onOpenCart();
+    }
+  }
+
+  function handleWishlistClick() {
+    closeMenu();
+
+    if (onOpenWishlist) {
+      onOpenWishlist();
+    }
+  }
+
+  function handleAuthClick() {
+    closeMenu();
+
+    if (onOpenAuth) {
+      onOpenAuth();
+    }
+  }
+
+  function handleLogout(message) {
+    closeMenu();
+
+    if (onLogout) {
+      onLogout(message);
+    }
   }
 
   return (
@@ -24,7 +70,7 @@ function Navbar({ cartCount = 0, onOpenCart, onOpenAuth }) {
       <div className="nav-container">
         <a href="#hero" className="logo" onClick={closeMenu}>
           <FaFishFins />
-          <span>AquaLife</span>
+          AquaLife
         </a>
 
         <nav className={`nav-links ${showMenu ? "active" : ""}`}>
@@ -49,18 +95,12 @@ function Navbar({ cartCount = 0, onOpenCart, onOpenAuth }) {
           </a>
 
           {isAuthenticated ? (
-            <UserMenu user={user} />
+            <UserMenu user={user} onLogout={handleLogout} />
           ) : (
             <button
               type="button"
               className="btn-auth"
-              onClick={() => {
-                closeMenu();
-
-                if (onOpenAuth) {
-                  onOpenAuth();
-                }
-              }}
+              onClick={handleAuthClick}
             >
               Login / Sign up
             </button>
@@ -68,24 +108,38 @@ function Navbar({ cartCount = 0, onOpenCart, onOpenAuth }) {
         </nav>
 
         <div className="nav-icons">
-          <div
-            className="cart-icon"
-            aria-label="Cart"
-            onClick={() => {
-              if (onOpenCart) {
-                onOpenCart();
-              }
-            }}
+          <button
+            type="button"
+            className="nav-action wishlist-nav"
+            aria-label={`Wishlist with ${wishlistCount} ${
+              wishlistCount === 1 ? "item" : "items"
+            }`}
+            onClick={handleWishlistClick}
+          >
+            <FaHeart />
+
+            {wishlistCount > 0 && (
+              <span className="nav-count">{wishlistCount}</span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            className="nav-action cart-icon"
+            aria-label={`Cart with ${cartCount} ${
+              cartCount === 1 ? "item" : "items"
+            }`}
+            onClick={handleCartClick}
           >
             <FaCartShopping />
 
-            <span id="cart-count">{cartCount}</span>
-          </div>
+            {cartCount > 0 && <span className="nav-count">{cartCount}</span>}
+          </button>
 
           <button
             type="button"
             className="hamburger"
-            aria-label="Menu"
+            aria-label={showMenu ? "Close menu" : "Open menu"}
             onClick={toggleMenu}
           >
             {showMenu ? <FaXmark /> : <FaBars />}

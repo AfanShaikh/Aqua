@@ -1,15 +1,26 @@
 import "./Product.css";
 
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaHeart } from "react-icons/fa";
 
-function ProductCard({ product, onAddToCart }) {
+function ProductCard({ product, onAddToCart, isWishlisted, onToggleWishlist }) {
   return (
     <div className="product-card">
-      <img
-        src={product.img}
-        alt={product.name}
-        loading="lazy"
-      />
+      <div className="product-image-wrapper">
+        <img src={product.img} alt={product.name} />
+
+        <button
+          type="button"
+          className={`wishlist-btn ${isWishlisted ? "active" : ""}`}
+          onClick={() => onToggleWishlist(product)}
+          aria-label={
+            isWishlisted
+              ? `Remove ${product.name} from wishlist`
+              : `Add ${product.name} to wishlist`
+          }
+        >
+          <FaHeart />
+        </button>
+      </div>
 
       <div className="product-info">
         <h3>{product.name}</h3>
@@ -20,13 +31,11 @@ function ProductCard({ product, onAddToCart }) {
           ))}
         </div>
 
-        <div className="price">
-          ${product.price.toFixed(2)}
-        </div>
+        <div className="price">${product.price.toFixed(2)}</div>
 
         <button
+          type="button"
           className="btn btn-primary add-to-cart"
-          data-id={product.id}
           onClick={() => onAddToCart(product)}
         >
           Add to Cart

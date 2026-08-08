@@ -20,41 +20,77 @@ import Footer from "../components/Footer/Footer";
 import Toast from "../components/Toast/Toast";
 import CartModal from "../components/Cart/CartModal";
 import CheckoutModal from "../components/Checkout/CheckoutModal";
+import WishlistModal from "../components/Wishlist/WishlistModal";
 
 function Home() {
   const { isAuthenticated } = useAuth();
 
   const [showVideoModal, setShowVideoModal] = useState(false);
-
   const [showLightbox, setShowLightbox] = useState(false);
-
   const [selectedImage, setSelectedImage] = useState("");
 
   const [showBlogModal, setShowBlogModal] = useState(false);
-
   const [selectedBlog, setSelectedBlog] = useState(null);
 
-  const [showToast, setShowToast] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+  const [showWishlist, setShowWishlist] = useState(false);
 
+  const [authForCheckout, setAuthForCheckout] = useState(false);
+
+  const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem("aqualife-cart");
 
-    return savedCart ? JSON.parse(savedCart) : [];
+    if (!savedCart) {
+      return [];
+    }
+
+    try {
+      const parsedCart = JSON.parse(savedCart);
+
+      return Array.isArray(parsedCart) ? parsedCart : [];
+    } catch (error) {
+      console.error("Failed to load cart:", error);
+
+      return [];
+    }
   });
 
-  const [showCart, setShowCart] = useState(false);
+  const [wishlist, setWishlist] = useState(() => {
+    const savedWishlist = localStorage.getItem("aqualife-wishlist");
 
-  const [showCheckout, setShowCheckout] = useState(false);
+    if (!savedWishlist) {
+      return [];
+    }
 
-  const [showAuth, setShowAuth] = useState(false);
+    try {
+      const parsedWishlist = JSON.parse(savedWishlist);
+
+      return Array.isArray(parsedWishlist) ? parsedWishlist : [];
+    } catch (error) {
+      console.error("Failed to load wishlist:", error);
+
+      return [];
+    }
+  });
 
   useEffect(() => {
     localStorage.setItem("aqualife-cart", JSON.stringify(cart));
   }, [cart]);
 
+  useEffect(() => {
+    localStorage.setItem("aqualife-wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
+
   function displayToast(message) {
+    if (!message) {
+      return;
+    }
+
     setToastMessage(message);
     setShowToast(true);
 
@@ -64,72 +100,141 @@ function Home() {
   }
 
   function addToCart(product) {
-    const existingProduct = cart.find((item) => item.id === product.id);
-
-    if (existingProduct) {
-      const updatedCart = cart.map((item) =>
-        item.id === product.id
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item,
+    setCart((currentCart) => {
+      const existingProduct = currentCart.find(
+        (item) => item.id === product.id,
       );
 
-      setCart(updatedCart);
-    } else {
-      setCart([
-        ...cart,
+      if (existingProduct) {
+        return currentCart.map((item) =>
+          item.id === product.id
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item,
+        );
+      }
+
+      return [
+        ...currentCart,
         {
           ...product,
           quantity: 1,
         },
-      ]);
-    }
+      ];
+    });
 
     displayToast(`${product.name} added to cart`);
   }
 
   function increaseQuantity(id) {
-    const updatedCart = cart.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            quantity: item.quantity + 1,
-          }
-        : item,
-    );
-
-    setCart(updatedCart);
-  }
-
-  function decreaseQuantity(id) {
-    const updatedCart = cart
-      .map((item) =>
+    setCart((currentCart) =>
+      currentCart.map((item) =>
         item.id === id
           ? {
               ...item,
-              quantity: item.quantity - 1,
+              quantity: item.quantity + 1,
             }
           : item,
-      )
-      .filter((item) => item.quantity > 0);
+      ),
+    );
+  }
 
-    setCart(updatedCart);
+  function decreaseQuantity(id) {
+    setCart((currentCart) =>
+      currentCart
+        .map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                quantity: item.quantity - 1,
+              }
+            : item,
+        )
+        .filter((item) => item.quantity > 0),
+    );
   }
 
   function removeFromCart(id) {
-    const updatedCart = cart.filter((item) => item.id !== id);
+    const product = cart.find((item) => item.id === id);
 
-    setCart(updatedCart);
+    setCart((currentCart) => currentCart.filter((item) => item.id !== id));
 
-    displayToast("Product removed");
+    if (product) {
+      displayToast(`${product.name} removed from cart`);
+    }
+  }
+
+  function toggleWishlist(product) {
+    setWishlist((currentWishlist) => {
+      const isWishlisted = currentWishlist.some(
+        (item) => item.id === product.id,
+      );
+
+      if (isWishlisted) {
+        displayToast(`${product.name} removed from wishlist`);
+
+        return currentWishlist.filter((item) => item.id !== product.id);
+      }
+
+      displayToast(`${product.name} added to wishlist`);
+
+      return [...currentWishlist, product];
+    });
+  }
+
+  function removeFromWishlist(id) {
+    const product = wishlist.find((item) => item.id === id);
+
+    setWishlist((currentWishlist) =>
+      currentWishlist.filter((item) => item.id !== id),
+    );
+
+    if (product) {
+      displayToast(`${product.name} removed from wishlist`);
+    }
+  }
+
+  function addWishlistItemToCart(product) {
+    setCart((currentCart) => {
+      const existingProduct = currentCart.find(
+        (item) => item.id === product.id,
+      );
+
+      if (existingProduct) {
+        return currentCart.map((item) =>
+          item.id === product.id
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item,
+        );
+      }
+
+      return [
+        ...currentCart,
+        {
+          ...product,
+          quantity: 1,
+        },
+      ];
+    });
+
+    setWishlist((currentWishlist) =>
+      currentWishlist.filter((item) => item.id !== product.id),
+    );
+
+    displayToast(`${product.name} added to cart and removed from wishlist`);
   }
 
   function handleCheckout() {
     if (!isAuthenticated) {
       setShowCart(false);
+      setAuthForCheckout(true);
       setShowAuth(true);
+
       return;
     }
 
@@ -137,9 +242,20 @@ function Home() {
     setShowCheckout(true);
   }
 
-  function handleAuthSuccess() {
+  function handleAuthSuccess(message) {
     setShowAuth(false);
-    setShowCheckout(true);
+
+    displayToast(message || "Authentication successful");
+
+    if (authForCheckout) {
+      setShowCheckout(true);
+      setAuthForCheckout(false);
+    }
+  }
+
+  function handleOpenAuth() {
+    setAuthForCheckout(false);
+    setShowAuth(true);
   }
 
   function placeOrder(orderDetails) {
@@ -150,7 +266,13 @@ function Home() {
     if (savedOrders) {
       try {
         orders = JSON.parse(savedOrders);
+
+        if (!Array.isArray(orders)) {
+          orders = [];
+        }
       } catch (error) {
+        console.error("Failed to load orders:", error);
+
         orders = [];
       }
     }
@@ -160,9 +282,7 @@ function Home() {
     localStorage.setItem("aqualife_orders", JSON.stringify(updatedOrders));
 
     setCart([]);
-
     setShowCheckout(false);
-
     setShowCart(false);
 
     localStorage.removeItem("aqualife-cart");
@@ -176,15 +296,22 @@ function Home() {
     <>
       <Navbar
         cartCount={cart.length}
+        wishlistCount={wishlist.length}
         onOpenCart={() => setShowCart(true)}
-        onOpenAuth={() => setShowAuth(true)}
+        onOpenWishlist={() => setShowWishlist(true)}
+        onOpenAuth={handleOpenAuth}
+        onLogout={displayToast}
       />
 
       <Hero />
 
       <Categories />
 
-      <Products onAddToCart={addToCart} />
+      <Products
+        onAddToCart={addToCart}
+        wishlist={wishlist}
+        onToggleWishlist={toggleWishlist}
+      />
 
       <CountdownOffer />
 
@@ -204,7 +331,7 @@ function Home() {
         }}
       />
 
-      <Newsletter />
+      <Newsletter onToast={displayToast} />
 
       <Footer />
 
@@ -220,6 +347,14 @@ function Home() {
         onCheckout={handleCheckout}
       />
 
+      <WishlistModal
+        show={showWishlist}
+        wishlist={wishlist}
+        onClose={() => setShowWishlist(false)}
+        onRemove={removeFromWishlist}
+        onAddToCart={addWishlistItemToCart}
+      />
+
       <CheckoutModal
         show={showCheckout}
         cart={cart}
@@ -231,6 +366,7 @@ function Home() {
       <AuthModal
         show={showAuth}
         onClose={() => setShowAuth(false)}
+        onToast={displayToast}
         onSuccess={handleAuthSuccess}
       />
 
