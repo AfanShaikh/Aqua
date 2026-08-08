@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import useAuth from "../hooks/useAuth";
+import { useTheme } from "../context/ThemeContext";
 
 import Navbar from "../components/Navbar/Navbar";
 import Hero from "../components/Hero/Hero";
@@ -24,6 +25,7 @@ import WishlistModal from "../components/Wishlist/WishlistModal";
 
 function Home() {
   const { isAuthenticated } = useAuth();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -300,43 +302,47 @@ function Home() {
         cartCount={cart.length}
         wishlistCount={wishlist.length}
         searchQuery={searchQuery}
+        isDarkMode={isDarkMode}
         onSearchChange={setSearchQuery}
+        onToggleTheme={toggleTheme}
         onOpenCart={() => setShowCart(true)}
         onOpenWishlist={() => setShowWishlist(true)}
         onOpenAuth={handleOpenAuth}
         onLogout={displayToast}
       />
 
-      <Hero />
+      <main>
+        <Hero />
 
-      <Categories />
+        <Categories />
 
-      <Products
-        searchQuery={searchQuery}
-        onAddToCart={addToCart}
-        wishlist={wishlist}
-        onToggleWishlist={toggleWishlist}
-      />
+        <Products
+          searchQuery={searchQuery}
+          onAddToCart={addToCart}
+          wishlist={wishlist}
+          onToggleWishlist={toggleWishlist}
+        />
 
-      <CountdownOffer />
+        <CountdownOffer />
 
-      <VideoPromo onPlay={() => setShowVideoModal(true)} />
+        <VideoPromo onPlay={() => setShowVideoModal(true)} />
 
-      <Gallery
-        onImageClick={(image) => {
-          setSelectedImage(image);
-          setShowLightbox(true);
-        }}
-      />
+        <Gallery
+          onImageClick={(image) => {
+            setSelectedImage(image);
+            setShowLightbox(true);
+          }}
+        />
 
-      <Blog
-        onReadMore={(blog) => {
-          setSelectedBlog(blog);
-          setShowBlogModal(true);
-        }}
-      />
+        <Blog
+          onReadMore={(blog) => {
+            setSelectedBlog(blog);
+            setShowBlogModal(true);
+          }}
+        />
 
-      <Newsletter onToast={displayToast} />
+        <Newsletter onToast={displayToast} />
+      </main>
 
       <Footer />
 

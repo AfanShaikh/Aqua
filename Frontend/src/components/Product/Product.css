@@ -58,10 +58,10 @@
 .filter-btn {
   padding: 9px 22px;
 
-  border: none;
+  border: 1px solid transparent;
   border-radius: 999px;
 
-  background: #f3f3f3;
+  background: var(--background-light);
 
   color: var(--text-color);
 
@@ -73,9 +73,11 @@
   cursor: pointer;
 
   transition:
-    background 0.25s ease,
+    background-color 0.25s ease,
     color 0.25s ease,
-    transform 0.25s ease;
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .filter-btn:hover {
@@ -89,7 +91,15 @@
 .filter-btn.active {
   background: var(--primary-color);
 
-  color: var(--white);
+  color: #ffffff;
+
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.filter-btn:focus-visible {
+  outline: 3px solid rgba(255, 107, 53, 0.3);
+
+  outline-offset: 2px;
 }
 
 .product-grid {
@@ -115,23 +125,25 @@
 
   overflow: hidden;
 
-  background: var(--white);
+  background: var(--surface);
 
-  border: 1px solid #eeeeee;
+  border: 1px solid var(--border-color);
 
   border-radius: 14px;
 
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--shadow-sm);
 
   transition:
     transform 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .product-card:hover {
   transform: translateY(-5px);
 
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-md);
 }
 
 .product-image-wrapper {
@@ -142,7 +154,7 @@
 
   overflow: hidden;
 
-  background: #f5f5f5;
+  background: var(--background-light);
 }
 
 .product-image-wrapper img {
@@ -176,21 +188,23 @@
 
   padding: 0;
 
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, 0.96);
+  background: var(--surface);
 
-  color: #777;
+  color: var(--light-text);
 
   font-size: 0.9rem;
 
   cursor: pointer;
 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-sm);
 
   transition:
     color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
 
@@ -200,13 +214,21 @@
 .wishlist-btn:hover {
   color: var(--primary-color);
 
+  background: var(--surface);
+
+  border-color: rgba(255, 107, 53, 0.25);
+
   transform: scale(1.05);
 
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
 .wishlist-btn.active {
   color: var(--primary-color);
+
+  background: rgba(255, 107, 53, 0.1);
+
+  border-color: rgba(255, 107, 53, 0.2);
 }
 
 .wishlist-btn:focus-visible {
@@ -311,8 +333,9 @@
   cursor: pointer;
 
   transition:
-    background 0.25s ease,
+    background-color 0.25s ease,
     color 0.25s ease,
+    border-color 0.25s ease,
     transform 0.25s ease,
     box-shadow 0.25s ease;
 }
@@ -320,7 +343,7 @@
 .load-more-btn:hover {
   background: var(--primary-color);
 
-  color: var(--white);
+  color: #ffffff;
 
   transform: translateY(-2px);
 
@@ -364,6 +387,23 @@
   font-size: 0.9rem;
 
   line-height: 1.6;
+}
+
+[data-theme="dark"] .product-card {
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .wishlist-btn {
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .filter-btn {
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .filter-btn:hover,
+[data-theme="dark"] .filter-btn.active {
+  border-color: var(--primary-color);
 }
 
 @media (max-width: 720px) {
@@ -490,7 +530,7 @@
   .product-card:hover {
     transform: none;
 
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+    box-shadow: var(--shadow-sm);
   }
 
   .product-card:hover .product-image-wrapper img {

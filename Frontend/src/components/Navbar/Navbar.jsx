@@ -13,6 +13,7 @@ import {
 
 import useAuth from "../../hooks/useAuth";
 import UserMenu from "../Auth/UserMenu";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 function Navbar({
   cartCount = 0,
@@ -35,6 +36,7 @@ function Navbar({
 
   function toggleMenu() {
     setShowMenu((current) => !current);
+    setShowSearch(false);
   }
 
   function toggleSearch() {
@@ -55,6 +57,7 @@ function Navbar({
 
   function handleCartClick() {
     closeMenu();
+    setShowSearch(false);
 
     if (onOpenCart) {
       onOpenCart();
@@ -63,6 +66,7 @@ function Navbar({
 
   function handleWishlistClick() {
     closeMenu();
+    setShowSearch(false);
 
     if (onOpenWishlist) {
       onOpenWishlist();
@@ -71,6 +75,7 @@ function Navbar({
 
   function handleAuthClick() {
     closeMenu();
+    setShowSearch(false);
 
     if (onOpenAuth) {
       onOpenAuth();
@@ -79,6 +84,7 @@ function Navbar({
 
   function handleLogout(message) {
     closeMenu();
+    setShowSearch(false);
 
     if (onLogout) {
       onLogout(message);
@@ -88,13 +94,20 @@ function Navbar({
   return (
     <header id="navbar">
       <div className="nav-container">
-        <a href="#hero" className="logo" onClick={closeMenu}>
+        <a
+          href="#hero"
+          className="logo"
+          aria-label="AquaLife home"
+          onClick={closeMenu}
+        >
           <FaFishFins />
-
           <span>AquaLife</span>
         </a>
 
-        <nav className={`nav-links ${showMenu ? "active" : ""}`}>
+        <nav
+          className={`nav-links ${showMenu ? "active" : ""}`}
+          aria-label="Main navigation"
+        >
           <a href="#hero" onClick={closeMenu}>
             Home
           </a>
@@ -163,6 +176,8 @@ function Navbar({
           >
             {showSearch ? <FaXmark /> : <FaMagnifyingGlass />}
           </button>
+
+          <ThemeToggle />
 
           <button
             type="button"

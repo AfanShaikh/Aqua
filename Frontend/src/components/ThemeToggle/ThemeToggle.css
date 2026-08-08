@@ -1,0 +1,71 @@
+.theme-toggle {
+  position: relative;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: var(--text-color);
+
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--primary-color);
+
+  background: rgba(255, 107, 53, 0.08);
+
+  transform: translateY(-1px);
+}
+
+.theme-toggle:focus-visible {
+  outline: 3px solid rgba(255, 107, 53, 0.3);
+
+  outline-offset: 3px;
+}
+
+.theme-toggle.dark {
+  color: #fbbf24;
+}
+
+.theme-toggle.dark:hover {
+  color: #f59e0b;
+
+  background: rgba(251, 191, 36, 0.1);
+}
+
+@media (max-width: 480px) {
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .theme-toggle {
+    width: 30px;
+    height: 30px;
+
+    font-size: 0.9rem;
+  }
+}

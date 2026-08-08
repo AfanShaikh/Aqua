@@ -30,6 +30,15 @@
   border-bottom-left-radius: 15px;
 
   animation: slideInRight 0.35s ease;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+[data-theme="dark"] .auth-panel {
+  background: #0f172a;
+  color: #f1f5f9;
 }
 
 @keyframes slideInRight {
@@ -75,12 +84,23 @@
     transform 0.2s ease;
 }
 
+[data-theme="dark"] .close-auth {
+  background: #1e293b;
+  color: #cbd5e1;
+}
+
 .close-auth:hover {
   background: #fff1ef;
 
   color: var(--primary-color);
 
   transform: rotate(90deg);
+}
+
+[data-theme="dark"] .close-auth:hover {
+  background: rgba(255, 107, 53, 0.12);
+
+  color: var(--primary-color);
 }
 
 .close-auth:focus-visible {
@@ -102,6 +122,10 @@
   line-height: 1.15;
 }
 
+[data-theme="dark"] .auth-title {
+  color: #f8fafc;
+}
+
 .auth-subtitle {
   margin: 0 0 35px;
 
@@ -109,6 +133,10 @@
 
   font-size: 1rem;
   line-height: 1.6;
+}
+
+[data-theme="dark"] .auth-subtitle {
+  color: #94a3b8;
 }
 
 .auth-link {
@@ -125,6 +153,10 @@
   font-weight: 600;
 
   cursor: pointer;
+}
+
+[data-theme="dark"] .auth-link {
+  color: #60a5fa;
 }
 
 .auth-link:hover {
@@ -154,10 +186,22 @@
   color: #dc3545;
 }
 
+[data-theme="dark"] .auth-error {
+  background: rgba(220, 53, 69, 0.12);
+
+  color: #f87171;
+}
+
 .auth-success {
   background: #edf9f0;
 
   color: #28a745;
+}
+
+[data-theme="dark"] .auth-success {
+  background: rgba(40, 167, 69, 0.12);
+
+  color: #4ade80;
 }
 
 .auth-field {
@@ -173,6 +217,10 @@
 
   font-size: 0.95rem;
   font-weight: 600;
+}
+
+[data-theme="dark"] .auth-field label {
+  color: #e2e8f0;
 }
 
 .auth-field label span {
@@ -199,11 +247,25 @@
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+[data-theme="dark"] .auth-field input {
+  background: #1e293b;
+
+  border-color: #475569;
+
+  color: #f1f5f9;
 }
 
 .auth-field input::placeholder {
   color: #999;
+}
+
+[data-theme="dark"] .auth-field input::placeholder {
+  color: #64748b;
 }
 
 .auth-field input:focus {
@@ -254,6 +316,10 @@
   line-height: 1.5;
 
   cursor: pointer;
+}
+
+[data-theme="dark"] .newsletter-check {
+  color: #cbd5e1;
 }
 
 .newsletter-check input {
@@ -319,8 +385,16 @@
   text-align: center;
 }
 
+[data-theme="dark"] .auth-terms {
+  color: #64748b;
+}
+
 .auth-terms a {
   color: #0056b3;
+}
+
+[data-theme="dark"] .auth-terms a {
+  color: #60a5fa;
 }
 
 .auth-terms a:hover {
@@ -335,6 +409,10 @@
   background: #cfcfcf;
 
   border-radius: 50px;
+}
+
+[data-theme="dark"] .auth-panel::-webkit-scrollbar-thumb {
+  background: #475569;
 }
 
 .auth-panel::-webkit-scrollbar-track {

@@ -29,6 +29,8 @@
 .hero-content h1 {
   margin-bottom: 20px;
 
+  color: var(--white);
+
   font-size: 4rem;
   font-weight: 700;
   line-height: 1.2;
