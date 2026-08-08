@@ -30,10 +30,6 @@
   font-size: 0.95rem;
 }
 
-/* ==========================================================
-   FORM
-========================================================== */
-
 #newsletter-form {
   position: relative;
 
@@ -55,7 +51,6 @@
   outline: none;
 
   background: var(--white);
-
   color: var(--text-color);
 
   font-family: inherit;
@@ -78,10 +73,6 @@
   box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
 }
 
-/* ==========================================================
-   SUBSCRIBE BUTTON
-========================================================== */
-
 .newsletter-btn {
   position: absolute;
 
@@ -101,7 +92,6 @@
   border-radius: 50%;
 
   background: var(--primary-color);
-
   color: var(--white);
 
   cursor: pointer;
@@ -130,11 +120,7 @@
   transform: scale(0.96);
 }
 
-/* ==========================================================
-   TABLET
-========================================================== */
-
-@media (max-width: 768px) {
+@media (max-width: 720px) {
   #newsletter {
     padding: 65px 0;
   }
@@ -156,11 +142,7 @@
   }
 }
 
-/* ==========================================================
-   MOBILE
-========================================================== */
-
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   #newsletter {
     padding: 55px 0;
   }
@@ -198,11 +180,11 @@
   }
 }
 
-/* ==========================================================
-   SMALL MOBILE
-========================================================== */
+@media (max-width: 320px) {
+  #newsletter {
+    padding: 45px 0;
+  }
 
-@media (max-width: 380px) {
   .newsletter-container {
     width: 94%;
   }
@@ -212,16 +194,23 @@
   }
 
   .newsletter-container p {
+    margin-bottom: 20px;
+
     font-size: 0.85rem;
   }
 
   #newsletter-form input {
     height: 50px;
 
-    padding-left: 16px;
+    padding: 0 58px 0 16px;
+
+    font-size: 0.85rem;
   }
 
   .newsletter-btn {
+    top: 4px;
+    right: 4px;
+
     width: 42px;
     height: 42px;
   }

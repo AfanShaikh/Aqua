@@ -1,28 +1,29 @@
-/* ==========================================================
-   FOOTER
-========================================================== */
-
 #footer {
-  background: #112240;
-  color: var(--white);
   padding-top: 60px;
+
+  background: #112240;
+
+  color: var(--white);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
+
   gap: 40px;
+
   margin-bottom: 40px;
 }
 
 .footer-brand h3 {
   display: flex;
   align-items: center;
+
   gap: 10px;
 
-  color: var(--primary-color);
-
   margin-bottom: 15px;
+
+  color: var(--primary-color);
 
   font-size: 1.5rem;
 }
@@ -55,6 +56,8 @@
 
 .social-links a:hover {
   background: var(--primary-color);
+
+  transform: translateY(-2px);
 }
 
 .footer-links h4,
@@ -79,6 +82,7 @@
 .footer-contact p {
   display: flex;
   align-items: flex-start;
+
   gap: 10px;
 
   margin-bottom: 10px;
@@ -87,23 +91,32 @@
 }
 
 .footer-contact svg {
-  margin-top: 4px;
   flex-shrink: 0;
+
+  margin-top: 4px;
 }
 
 .footer-bottom {
-  background: var(--secondary-color);
-
-  text-align: center;
-
   padding: 20px 0;
 
+  background: var(--secondary-color);
+
   font-size: 0.9rem;
+
+  text-align: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 720px) {
+  #footer {
+    padding-top: 50px;
+  }
+
   .footer-grid {
     grid-template-columns: 1fr;
+
+    gap: 35px;
+
+    margin-bottom: 35px;
 
     text-align: center;
   }
@@ -118,6 +131,95 @@
 
   .footer-contact p {
     justify-content: center;
+
     text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  #footer {
+    padding-top: 45px;
+  }
+
+  .footer-grid {
+    gap: 30px;
+  }
+
+  .footer-brand h3 {
+    font-size: 1.35rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .footer-links h4,
+  .footer-contact h4 {
+    margin-bottom: 14px;
+
+    font-size: 1.1rem;
+  }
+
+  .footer-links ul li {
+    margin-bottom: 8px;
+
+    font-size: 0.9rem;
+  }
+
+  .footer-contact p {
+    font-size: 0.9rem;
+  }
+
+  .social-links {
+    gap: 12px;
+
+    margin-top: 16px;
+  }
+
+  .social-links a {
+    width: 38px;
+    height: 38px;
+  }
+
+  .footer-bottom {
+    padding: 16px 10px;
+
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 320px) {
+  #footer {
+    padding-top: 40px;
+  }
+
+  .footer-grid {
+    gap: 25px;
+  }
+
+  .footer-brand h3 {
+    font-size: 1.25rem;
+  }
+
+  .footer-brand p,
+  .footer-links ul li,
+  .footer-contact p {
+    font-size: 0.82rem;
+  }
+
+  .social-links {
+    gap: 10px;
+  }
+
+  .social-links a {
+    width: 36px;
+    height: 36px;
+  }
+
+  .footer-bottom {
+    padding: 14px 8px;
+
+    font-size: 0.75rem;
   }
 }
