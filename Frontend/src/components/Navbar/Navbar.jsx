@@ -1,18 +1,14 @@
 import "./Navbar.css";
 
 import { useState } from "react";
-import {
-  FaFishFins,
-  FaCartShopping,
-  FaBars,
-  FaXmark,
-} from "react-icons/fa6";
+import { FaFishFins, FaCartShopping, FaBars, FaXmark } from "react-icons/fa6";
 
-function Navbar({
-  cartCount = 0,
-  onOpenCart,
-  onOpenAuth,
-}) {
+import useAuth from "../../hooks/useAuth";
+import UserMenu from "../Auth/UserMenu";
+
+function Navbar({ cartCount = 0, onOpenCart, onOpenAuth }) {
+  const { user, isAuthenticated } = useAuth();
+
   const [showMenu, setShowMenu] = useState(false);
 
   function closeMenu() {
@@ -26,66 +22,49 @@ function Navbar({
   return (
     <header id="navbar">
       <div className="nav-container">
-        <a
-          href="#hero"
-          className="logo"
-          onClick={closeMenu}
-        >
-          <FaFishFins /> AquaLife
+        <a href="#hero" className="logo" onClick={closeMenu}>
+          <FaFishFins />
+          <span>AquaLife</span>
         </a>
 
-        <nav
-          className={`nav-links ${
-            showMenu ? "active" : ""
-          }`}
-        >
-          <a
-            href="#hero"
-            onClick={closeMenu}
-          >
+        <nav className={`nav-links ${showMenu ? "active" : ""}`}>
+          <a href="#hero" onClick={closeMenu}>
             Home
           </a>
 
-          <a
-            href="#top-selling"
-            onClick={closeMenu}
-          >
+          <a href="#top-selling" onClick={closeMenu}>
             Shop
           </a>
 
-          <a
-            href="#categories"
-            onClick={closeMenu}
-          >
+          <a href="#categories" onClick={closeMenu}>
             Categories
           </a>
 
-          <a
-            href="#blog"
-            onClick={closeMenu}
-          >
+          <a href="#blog" onClick={closeMenu}>
             Blog
           </a>
 
-          <a
-            href="#footer"
-            onClick={closeMenu}
-          >
+          <a href="#footer" onClick={closeMenu}>
             Contact
           </a>
 
-          <button
-            className="btn-auth"
-            onClick={() => {
-              closeMenu();
+          {isAuthenticated ? (
+            <UserMenu user={user} />
+          ) : (
+            <button
+              type="button"
+              className="btn-auth"
+              onClick={() => {
+                closeMenu();
 
-              if (onOpenAuth) {
-                onOpenAuth();
-              }
-            }}
-          >
-            Login / Sign up
-          </button>
+                if (onOpenAuth) {
+                  onOpenAuth();
+                }
+              }}
+            >
+              Login / Sign up
+            </button>
+          )}
         </nav>
 
         <div className="nav-icons">
@@ -100,21 +79,16 @@ function Navbar({
           >
             <FaCartShopping />
 
-            <span id="cart-count">
-              {cartCount}
-            </span>
+            <span id="cart-count">{cartCount}</span>
           </div>
 
           <button
+            type="button"
             className="hamburger"
             aria-label="Menu"
             onClick={toggleMenu}
           >
-            {showMenu ? (
-              <FaXmark />
-            ) : (
-              <FaBars />
-            )}
+            {showMenu ? <FaXmark /> : <FaBars />}
           </button>
         </div>
       </div>

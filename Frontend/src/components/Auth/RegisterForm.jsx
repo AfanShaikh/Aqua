@@ -2,36 +2,70 @@ import "./Auth.css";
 
 import { useState } from "react";
 
-function RegisterForm({
-  onSwitch,
-}) {
+import useAuth from "../../hooks/useAuth";
+
+function RegisterForm({ onSwitch, onSuccess }) {
+  const { register } = useAuth();
+
   const [name, setName] = useState("");
-
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [password, setPassword] =
-    useState("");
+  const [subscribeNewsletter, setSubscribeNewsletter] =
+    useState(true);
 
-  const [
-    subscribeNewsletter,
-    setSubscribeNewsletter,
-  ] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    setError("");
+    setSuccess("");
+
+    /* ==========================================================
+       VALIDATION
+    ========================================================== */
 
     if (
       !name.trim() ||
       !email.trim() ||
       !password.trim()
     ) {
-      alert("Please fill in all fields.");
+      setError("Please fill in all required fields.");
       return;
     }
 
-    alert(
-      "Registration functionality will be added later."
-    );
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+
+    /* ==========================================================
+       REGISTER USER
+    ========================================================== */
+
+    const result = register({
+      name: name.trim(),
+      email: email.trim(),
+      password,
+    });
+
+    if (!result.success) {
+      setError(result.message);
+      return;
+    }
+
+    /* ==========================================================
+       SUCCESS
+    ========================================================== */
+
+    setName("");
+    setEmail("");
+    setPassword("");
+    setSubscribeNewsletter(true);
+
+    onSuccess();
   }
 
   return (
@@ -39,9 +73,7 @@ function RegisterForm({
       className="auth-form"
       onSubmit={handleSubmit}
     >
-      <h2 className="auth-title">
-        Create Account
-      </h2>
+      <h2>Create Account</h2>
 
       <p className="auth-subtitle">
         Already have an account?{" "}
@@ -53,6 +85,20 @@ function RegisterForm({
           Sign In
         </button>
       </p>
+
+      {/* ========================================================
+          ERROR
+      ======================================================== */}
+
+      {error && (
+        <p className="auth-message auth-error">
+          {error}
+        </p>
+      )}
+
+      {/* ========================================================
+          NAME
+      ======================================================== */}
 
       <div className="auth-field">
         <label>
@@ -70,6 +116,10 @@ function RegisterForm({
         />
       </div>
 
+      {/* ========================================================
+          EMAIL
+      ======================================================== */}
+
       <div className="auth-field">
         <label>
           Email Address
@@ -86,6 +136,10 @@ function RegisterForm({
         />
       </div>
 
+      {/* ========================================================
+          PASSWORD
+      ======================================================== */}
+
       <div className="auth-field">
         <label>
           Create Password
@@ -97,12 +151,11 @@ function RegisterForm({
           placeholder="Minimum 8 characters"
           value={password}
           onChange={(event) =>
-            setPassword(
-              event.target.value
-            )
+            setPassword(event.target.value)
           }
         />
       </div>
+
 
       <label className="newsletter-check">
         <input
@@ -116,10 +169,11 @@ function RegisterForm({
         />
 
         <span>
-          Send me offers and updates
-          on new aquatic arrivals
+          Send me offers and updates on new
+          aquatic arrivals
         </span>
       </label>
+
 
       <button
         type="submit"
@@ -128,16 +182,18 @@ function RegisterForm({
         CREATE ACCOUNT
       </button>
 
+
       <p className="auth-terms">
-        By creating an account,
-        you agree to AquaLife's{" "}
+        By creating an account, you agree to
+        AquaLife's{" "}
         <a href="#">
           Terms of Service
         </a>{" "}
         and{" "}
         <a href="#">
           Privacy Policy
-        </a>.
+        </a>
+        .
       </p>
     </form>
   );

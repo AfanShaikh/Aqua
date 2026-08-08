@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import useAuth from "../hooks/useAuth";
+
 import Navbar from "../components/Navbar/Navbar";
 import Hero from "../components/Hero/Hero";
 import Categories from "../components/Categories/Categories";
@@ -20,80 +22,38 @@ import CartModal from "../components/Cart/CartModal";
 import CheckoutModal from "../components/Checkout/CheckoutModal";
 
 function Home() {
-  // ==========================
-  // Video Modal State
-  // ==========================
-  const [showVideoModal, setShowVideoModal] =
-    useState(false);
+  const { isAuthenticated } = useAuth();
 
-  // ==========================
-  // Gallery Lightbox State
-  // ==========================
-  const [showLightbox, setShowLightbox] =
-    useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
-  const [selectedImage, setSelectedImage] =
-    useState("");
+  const [showLightbox, setShowLightbox] = useState(false);
 
-  // ==========================
-  // Blog Modal State
-  // ==========================
-  const [showBlogModal, setShowBlogModal] =
-    useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
-  const [selectedBlog, setSelectedBlog] =
-    useState(null);
+  const [showBlogModal, setShowBlogModal] = useState(false);
 
-  // ==========================
-  // Toast State
-  // ==========================
-  const [showToast, setShowToast] =
-    useState(false);
+  const [selectedBlog, setSelectedBlog] = useState(null);
 
-  const [toastMessage, setToastMessage] =
-    useState("");
+  const [showToast, setShowToast] = useState(false);
 
-  // ==========================
-  // Cart State
-  // ==========================
+  const [toastMessage, setToastMessage] = useState("");
+
   const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem(
-      "aqualife-cart"
-    );
+    const savedCart = localStorage.getItem("aqualife-cart");
 
-    return savedCart
-      ? JSON.parse(savedCart)
-      : [];
+    return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  const [showCart, setShowCart] =
-    useState(false);
+  const [showCart, setShowCart] = useState(false);
 
-  // ==========================
-  // Checkout State
-  // ==========================
-  const [showCheckout, setShowCheckout] =
-    useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
 
-  // ==========================
-  // Auth Modal State
-  // ==========================
-  const [showAuth, setShowAuth] =
-    useState(false);
+  const [showAuth, setShowAuth] = useState(false);
 
-  // ==========================
-  // Save Cart To LocalStorage
-  // ==========================
   useEffect(() => {
-    localStorage.setItem(
-      "aqualife-cart",
-      JSON.stringify(cart)
-    );
+    localStorage.setItem("aqualife-cart", JSON.stringify(cart));
   }, [cart]);
 
-  // ==========================
-  // Toast Function
-  // ==========================
   function displayToast(message) {
     setToastMessage(message);
     setShowToast(true);
@@ -103,13 +63,8 @@ function Home() {
     }, 3000);
   }
 
-  // ==========================
-  // Add To Cart
-  // ==========================
   function addToCart(product) {
-    const existingProduct = cart.find(
-      (item) => item.id === product.id
-    );
+    const existingProduct = cart.find((item) => item.id === product.id);
 
     if (existingProduct) {
       const updatedCart = cart.map((item) =>
@@ -118,7 +73,7 @@ function Home() {
               ...item,
               quantity: item.quantity + 1,
             }
-          : item
+          : item,
       );
 
       setCart(updatedCart);
@@ -135,9 +90,6 @@ function Home() {
     displayToast(`${product.name} added to cart`);
   }
 
-  // ==========================
-  // Increase Quantity
-  // ==========================
   function increaseQuantity(id) {
     const updatedCart = cart.map((item) =>
       item.id === id
@@ -145,15 +97,12 @@ function Home() {
             ...item,
             quantity: item.quantity + 1,
           }
-        : item
+        : item,
     );
 
     setCart(updatedCart);
   }
 
-  // ==========================
-  // Decrease Quantity
-  // ==========================
   function decreaseQuantity(id) {
     const updatedCart = cart
       .map((item) =>
@@ -162,56 +111,66 @@ function Home() {
               ...item,
               quantity: item.quantity - 1,
             }
-          : item
+          : item,
       )
       .filter((item) => item.quantity > 0);
 
     setCart(updatedCart);
   }
 
-  // ==========================
-  // Remove From Cart
-  // ==========================
   function removeFromCart(id) {
-    const updatedCart = cart.filter(
-      (item) => item.id !== id
-    );
+    const updatedCart = cart.filter((item) => item.id !== id);
 
     setCart(updatedCart);
 
     displayToast("Product removed");
   }
 
-  // ==========================
-  // Open Checkout
-  // ==========================
   function handleCheckout() {
+    if (!isAuthenticated) {
+      setShowCart(false);
+      setShowAuth(true);
+      return;
+    }
+
+    setShowCart(false);
     setShowCheckout(true);
   }
 
-  // ==========================
-  // Place Order
-  // ==========================
-  function placeOrder() {
-    displayToast("Order placed successfully!");
-
-    setCart([]);
-    setShowCheckout(false);
-    setShowCart(false);
-
-    localStorage.removeItem(
-      "aqualife-cart"
-    );
+  function handleAuthSuccess() {
+    setShowAuth(false);
+    setShowCheckout(true);
   }
 
-  // ==========================
-  // Cart Total
-  // ==========================
-  const total = cart.reduce(
-    (sum, item) =>
-      sum + item.price * item.quantity,
-    0
-  );
+  function placeOrder(orderDetails) {
+    const savedOrders = localStorage.getItem("aqualife_orders");
+
+    let orders = [];
+
+    if (savedOrders) {
+      try {
+        orders = JSON.parse(savedOrders);
+      } catch (error) {
+        orders = [];
+      }
+    }
+
+    const updatedOrders = [...orders, orderDetails];
+
+    localStorage.setItem("aqualife_orders", JSON.stringify(updatedOrders));
+
+    setCart([]);
+
+    setShowCheckout(false);
+
+    setShowCart(false);
+
+    localStorage.removeItem("aqualife-cart");
+
+    displayToast("Order placed successfully!");
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <>
@@ -225,17 +184,11 @@ function Home() {
 
       <Categories />
 
-      <Products
-        onAddToCart={addToCart}
-      />
+      <Products onAddToCart={addToCart} />
 
       <CountdownOffer />
 
-      <VideoPromo
-        onPlay={() =>
-          setShowVideoModal(true)
-        }
-      />
+      <VideoPromo onPlay={() => setShowVideoModal(true)} />
 
       <Gallery
         onImageClick={(image) => {
@@ -257,7 +210,6 @@ function Home() {
 
       <BackToTop />
 
-      {/* Cart Modal */}
       <CartModal
         show={showCart}
         cart={cart}
@@ -268,54 +220,37 @@ function Home() {
         onCheckout={handleCheckout}
       />
 
-      {/* Checkout Modal */}
       <CheckoutModal
         show={showCheckout}
         cart={cart}
         total={total}
-        onClose={() =>
-          setShowCheckout(false)
-        }
+        onClose={() => setShowCheckout(false)}
         onPlaceOrder={placeOrder}
       />
 
       <AuthModal
         show={showAuth}
-        onClose={() =>
-            setShowAuth(false)
-        }
+        onClose={() => setShowAuth(false)}
+        onSuccess={handleAuthSuccess}
       />
 
-      {/* Toast */}
-      <Toast
-        show={showToast}
-        message={toastMessage}
-      />
+      <Toast show={showToast} message={toastMessage} />
 
-      {/* Video Modal */}
       <VideoModal
         show={showVideoModal}
-        onClose={() =>
-          setShowVideoModal(false)
-        }
+        onClose={() => setShowVideoModal(false)}
       />
 
-      {/* Gallery Lightbox */}
       <GalleryLightbox
         show={showLightbox}
         image={selectedImage}
-        onClose={() =>
-          setShowLightbox(false)
-        }
+        onClose={() => setShowLightbox(false)}
       />
 
-      {/* Blog Modal */}
       <BlogModal
         show={showBlogModal}
         blog={selectedBlog}
-        onClose={() =>
-          setShowBlogModal(false)
-        }
+        onClose={() => setShowBlogModal(false)}
       />
     </>
   );
