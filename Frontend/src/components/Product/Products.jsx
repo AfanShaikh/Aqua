@@ -1,25 +1,57 @@
 import "./Product.css";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import products from "../../data/products";
 import ProductCard from "./ProductCard";
 import FadeUp from "../FadeUp/FadeUp";
 
-function Products({ onAddToCart, wishlist, onToggleWishlist }) {
+function Products({
+  onAddToCart,
+  wishlist,
+  onToggleWishlist,
+  searchQuery = "",
+}) {
   const [filter, setFilter] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(8);
 
-  const filteredProducts =
-    filter === "all"
-      ? products
-      : products.filter((product) => product.category === filter);
+  const filteredProducts = useMemo(() => {
+    const normalizedSearch = searchQuery.trim().toLowerCase();
+
+    return products.filter((product) => {
+      const matchesFilter = filter === "all" || product.category === filter;
+
+      if (!normalizedSearch) {
+        return matchesFilter;
+      }
+
+      const searchableText = [
+        product.name,
+        product.category,
+        product.description,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return matchesFilter && searchableText.includes(normalizedSearch);
+    });
+  }, [filter, searchQuery]);
+
+  const visibleProducts = filteredProducts.slice(0, visibleCount);
+
+  const hasMoreProducts = visibleCount < filteredProducts.length;
+
+  useEffect(() => {
+    setVisibleCount(8);
+  }, [filter, searchQuery]);
+
+  function handleLoadMore() {
+    setVisibleCount((currentCount) => currentCount + 4);
+  }
 
   return (
-    <section id="top-selling" className="products-section">
-      {/* ======================================================
-          SECTION HEADER
-      ====================================================== */}
-
+    <section id="top-selling" className="section-padding">
       <FadeUp>
         <div className="products-header">
           <h2 className="products-title">Top Selling Products</h2>
@@ -30,10 +62,6 @@ function Products({ onAddToCart, wishlist, onToggleWishlist }) {
           </p>
         </div>
       </FadeUp>
-
-      {/* ======================================================
-          FILTER
-      ====================================================== */}
 
       <FadeUp>
         <div className="filter-container">
@@ -63,23 +91,41 @@ function Products({ onAddToCart, wishlist, onToggleWishlist }) {
         </div>
       </FadeUp>
 
-      {/* ======================================================
-          PRODUCT GRID
-      ====================================================== */}
-
       <FadeUp>
-        <div className="product-grid">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={onAddToCart}
-              isWishlisted={wishlist.some((item) => item.id === product.id)}
-              onToggleWishlist={onToggleWishlist}
-            />
-          ))}
-        </div>
+        {visibleProducts.length > 0 ? (
+          <div className="product-grid">
+            {visibleProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={onAddToCart}
+                isWishlisted={wishlist.some((item) => item.id === product.id)}
+                onToggleWishlist={onToggleWishlist}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="products-empty">
+            <h3>No products found</h3>
+
+            <p>Try searching for a different product or category.</p>
+          </div>
+        )}
       </FadeUp>
+
+      {hasMoreProducts && (
+        <FadeUp>
+          <div className="load-more-container">
+            <button
+              type="button"
+              className="btn btn-outline load-more-btn"
+              onClick={handleLoadMore}
+            >
+              Load More
+            </button>
+          </div>
+        </FadeUp>
+      )}
     </section>
   );
 }

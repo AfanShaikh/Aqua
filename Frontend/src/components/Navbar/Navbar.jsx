@@ -8,6 +8,7 @@ import {
   FaHeart,
   FaBars,
   FaXmark,
+  FaMagnifyingGlass,
 } from "react-icons/fa6";
 
 import useAuth from "../../hooks/useAuth";
@@ -16,6 +17,8 @@ import UserMenu from "../Auth/UserMenu";
 function Navbar({
   cartCount = 0,
   wishlistCount = 0,
+  searchQuery = "",
+  onSearchChange,
   onOpenCart,
   onOpenWishlist,
   onOpenAuth,
@@ -24,6 +27,7 @@ function Navbar({
   const { user, isAuthenticated } = useAuth();
 
   const [showMenu, setShowMenu] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
 
   function closeMenu() {
     setShowMenu(false);
@@ -31,6 +35,22 @@ function Navbar({
 
   function toggleMenu() {
     setShowMenu((current) => !current);
+  }
+
+  function toggleSearch() {
+    setShowSearch((current) => !current);
+  }
+
+  function handleSearchChange(event) {
+    if (onSearchChange) {
+      onSearchChange(event.target.value);
+    }
+  }
+
+  function clearSearch() {
+    if (onSearchChange) {
+      onSearchChange("");
+    }
   }
 
   function handleCartClick() {
@@ -70,7 +90,8 @@ function Navbar({
       <div className="nav-container">
         <a href="#hero" className="logo" onClick={closeMenu}>
           <FaFishFins />
-          AquaLife
+
+          <span>AquaLife</span>
         </a>
 
         <nav className={`nav-links ${showMenu ? "active" : ""}`}>
@@ -108,6 +129,41 @@ function Navbar({
         </nav>
 
         <div className="nav-icons">
+          {showSearch && (
+            <div className="nav-search">
+              <FaMagnifyingGlass />
+
+              <input
+                type="search"
+                value={searchQuery}
+                placeholder="Search products..."
+                aria-label="Search products"
+                onChange={handleSearchChange}
+              />
+
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="search-clear"
+                  aria-label="Clear search"
+                  onClick={clearSearch}
+                >
+                  <FaXmark />
+                </button>
+              )}
+            </div>
+          )}
+
+          <button
+            type="button"
+            className={`nav-action search-nav ${showSearch ? "active" : ""}`}
+            aria-label={showSearch ? "Close search" : "Open search"}
+            aria-expanded={showSearch}
+            onClick={toggleSearch}
+          >
+            {showSearch ? <FaXmark /> : <FaMagnifyingGlass />}
+          </button>
+
           <button
             type="button"
             className="nav-action wishlist-nav"
@@ -140,6 +196,7 @@ function Navbar({
             type="button"
             className="hamburger"
             aria-label={showMenu ? "Close menu" : "Open menu"}
+            aria-expanded={showMenu}
             onClick={toggleMenu}
           >
             {showMenu ? <FaXmark /> : <FaBars />}

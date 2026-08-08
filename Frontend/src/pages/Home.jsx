@@ -25,6 +25,8 @@ import WishlistModal from "../components/Wishlist/WishlistModal";
 function Home() {
   const { isAuthenticated } = useAuth();
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [showLightbox, setShowLightbox] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -297,6 +299,8 @@ function Home() {
       <Navbar
         cartCount={cart.length}
         wishlistCount={wishlist.length}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
         onOpenCart={() => setShowCart(true)}
         onOpenWishlist={() => setShowWishlist(true)}
         onOpenAuth={handleOpenAuth}
@@ -308,6 +312,7 @@ function Home() {
       <Categories />
 
       <Products
+        searchQuery={searchQuery}
         onAddToCart={addToCart}
         wishlist={wishlist}
         onToggleWishlist={toggleWishlist}

@@ -283,6 +283,89 @@
   font-size: 0.9rem;
 }
 
+.load-more-container {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 35px;
+}
+
+.load-more-btn {
+  min-width: 170px;
+
+  padding: 12px 28px;
+
+  border: 2px solid var(--primary-color);
+  border-radius: 999px;
+
+  background: transparent;
+
+  color: var(--primary-color);
+
+  font-family: inherit;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.load-more-btn:hover {
+  background: var(--primary-color);
+
+  color: var(--white);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.25);
+}
+
+.load-more-btn:focus-visible {
+  outline: 3px solid rgba(255, 107, 53, 0.3);
+
+  outline-offset: 3px;
+}
+
+.load-more-btn:active {
+  transform: translateY(0);
+}
+
+.products-empty {
+  width: 92%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 50px 20px;
+
+  text-align: center;
+}
+
+.products-empty h3 {
+  margin-bottom: 8px;
+
+  color: var(--secondary-color);
+
+  font-size: 1.3rem;
+}
+
+.products-empty p {
+  margin: 0;
+
+  color: var(--light-text);
+
+  font-size: 0.9rem;
+
+  line-height: 1.6;
+}
+
 @media (max-width: 720px) {
   #top-selling {
     padding: 65px 0 70px;
@@ -332,6 +415,10 @@
 
     width: 36px;
     height: 36px;
+  }
+
+  .load-more-container {
+    margin-top: 30px;
   }
 }
 
@@ -409,6 +496,20 @@
   .product-card:hover .product-image-wrapper img {
     transform: none;
   }
+
+  .load-more-container {
+    margin-top: 26px;
+  }
+
+  .load-more-btn {
+    width: 90%;
+
+    padding: 11px 24px;
+  }
+
+  .products-empty {
+    padding: 40px 15px;
+  }
 }
 
 @media (max-width: 320px) {
@@ -484,5 +585,31 @@
     padding: 10px 12px;
 
     font-size: 0.85rem;
+  }
+
+  .load-more-container {
+    margin-top: 22px;
+  }
+
+  .load-more-btn {
+    width: 92%;
+
+    min-width: 0;
+
+    padding: 10px 20px;
+
+    font-size: 0.85rem;
+  }
+
+  .products-empty {
+    padding: 35px 10px;
+  }
+
+  .products-empty h3 {
+    font-size: 1.1rem;
+  }
+
+  .products-empty p {
+    font-size: 0.8rem;
   }
 }

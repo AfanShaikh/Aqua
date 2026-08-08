@@ -3,19 +3,52 @@
 :root {
   --primary-color: #ff6b35;
   --primary-hover: #e55a2b;
+
   --secondary-color: #0a192f;
+
   --white: #ffffff;
   --black: #000000;
+
   --text-color: #333333;
   --light-text: #666666;
+
   --border-color: #e5e7eb;
+
   --background: #ffffff;
   --background-light: #f8f9fa;
+
+  --surface: #ffffff;
+  --surface-light: #f8f9fa;
+
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.15);
+
   --transition: all 0.3s ease;
+
   --container-width: 1200px;
+}
+
+[data-theme="dark"] {
+  --secondary-color: #f1f5f9;
+
+  --text-color: #d1d5db;
+  --light-text: #9ca3af;
+
+  --border-color: #374151;
+
+  --background: #0f172a;
+  --background-light: #172033;
+
+  --surface: #1e293b;
+  --surface-light: #172033;
+
+  --white: #1e293b;
+  --black: #ffffff;
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 *,
@@ -23,6 +56,7 @@
 *::after {
   margin: 0;
   padding: 0;
+
   box-sizing: border-box;
 }
 
@@ -32,14 +66,23 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;
+
   background: var(--background);
+
   color: var(--text-color);
+
   line-height: 1.6;
+
   overflow-x: hidden;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 a {
   text-decoration: none;
+
   color: inherit;
 }
 
@@ -50,6 +93,7 @@ ol {
 
 img {
   display: block;
+
   width: 100%;
   max-width: 100%;
 }
@@ -57,8 +101,11 @@ img {
 button {
   border: none;
   outline: none;
+
   background: transparent;
+
   cursor: pointer;
+
   font-family: inherit;
 }
 
@@ -67,17 +114,20 @@ textarea,
 select {
   border: none;
   outline: none;
+
   font-family: inherit;
 }
 
 ::selection {
   background: var(--primary-color);
-  color: var(--white);
+
+  color: #ffffff;
 }
 
 .container {
   width: 90%;
   max-width: var(--container-width);
+
   margin: 0 auto;
 }
 
@@ -102,6 +152,7 @@ select {
 
 .btn {
   display: inline-flex;
+
   align-items: center;
   justify-content: center;
 
@@ -118,7 +169,8 @@ select {
 
 .btn-primary {
   background: var(--primary-color);
-  color: var(--white);
+
+  color: #ffffff;
 }
 
 .btn-primary:hover {
@@ -129,19 +181,23 @@ select {
   border: 2px solid var(--primary-color);
 
   background: transparent;
+
   color: var(--primary-color);
 }
 
 .btn-outline:hover {
   background: var(--primary-color);
-  color: var(--white);
+
+  color: #ffffff;
 }
 
 .modal {
   position: fixed;
+
   inset: 0;
 
   display: flex;
+
   justify-content: center;
   align-items: center;
 
@@ -162,7 +218,7 @@ select {
 
   overflow-y: auto;
 
-  background: var(--white);
+  background: var(--surface);
 
   border-radius: 20px;
 
@@ -171,6 +227,7 @@ select {
 
 .close-modal {
   position: absolute;
+
   top: 18px;
   right: 18px;
 
@@ -178,12 +235,15 @@ select {
   height: 46px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
   border-radius: 50%;
 
-  background: var(--white);
+  background: var(--surface);
+
+  color: var(--text-color);
 
   font-size: 1.6rem;
   font-weight: 600;
@@ -199,6 +259,8 @@ select {
 
 .close-modal:hover {
   transform: rotate(90deg);
+
+  color: var(--primary-color);
 }
 
 .text-center {
@@ -218,11 +280,12 @@ select {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f3f4f6;
+  background: var(--background-light);
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--primary-color);
+
   border-radius: 999px;
 }
 
@@ -251,7 +314,9 @@ select {
 
   .modal-content {
     width: 94%;
+
     max-height: 92vh;
+
     border-radius: 18px;
   }
 
@@ -291,7 +356,9 @@ select {
 
   .modal-content {
     width: 96%;
+
     max-height: 94vh;
+
     border-radius: 16px;
   }
 
@@ -335,7 +402,9 @@ select {
 
   .modal-content {
     width: 98%;
+
     max-height: 95vh;
+
     border-radius: 14px;
   }
 
