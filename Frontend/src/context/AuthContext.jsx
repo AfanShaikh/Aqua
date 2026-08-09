@@ -10,26 +10,48 @@ function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem(CURRENT_USER_KEY);
+    loadCurrentUser();
 
-    if (savedUser) {
-      try {
-        const parsedUser = JSON.parse(savedUser);
-
-        if (parsedUser && parsedUser.id && parsedUser.email) {
-          setUser(parsedUser);
-        } else {
-          localStorage.removeItem(CURRENT_USER_KEY);
-        }
-      } catch (error) {
-        console.error("Failed to load current user:", error);
-
-        localStorage.removeItem(CURRENT_USER_KEY);
+    function handleStorageChange(event) {
+      if (event.key === CURRENT_USER_KEY) {
+        loadCurrentUser();
       }
     }
 
-    setLoading(false);
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
+
+  function loadCurrentUser() {
+    const savedUser = localStorage.getItem(CURRENT_USER_KEY);
+
+    if (!savedUser) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const parsedUser = JSON.parse(savedUser);
+
+      if (parsedUser && parsedUser.id && parsedUser.email) {
+        setUser(parsedUser);
+      } else {
+        localStorage.removeItem(CURRENT_USER_KEY);
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Failed to load current user:", error);
+
+      localStorage.removeItem(CURRENT_USER_KEY);
+      setUser(null);
+    }
+
+    setLoading(false);
+  }
 
   function getUsers() {
     const savedUsers = localStorage.getItem(USERS_KEY);

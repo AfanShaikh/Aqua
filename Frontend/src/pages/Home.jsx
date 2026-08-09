@@ -21,6 +21,7 @@ import Toast from "../components/Toast/Toast";
 import CartModal from "../components/Cart/CartModal";
 import CheckoutModal from "../components/Checkout/CheckoutModal";
 import WishlistModal from "../components/Wishlist/WishlistModal";
+import OrderHistory from "../components/OrderHistory/OrderHistory";
 
 function Home() {
   const { isAuthenticated } = useAuth();
@@ -38,6 +39,7 @@ function Home() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
+  const [showOrderHistory, setShowOrderHistory] = useState(false);
 
   const [authForCheckout, setAuthForCheckout] = useState(false);
 
@@ -81,12 +83,37 @@ function Home() {
   });
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      localStorage.removeItem("aqualife-cart");
+      return;
+    }
+
     localStorage.setItem("aqualife-cart", JSON.stringify(cart));
-  }, [cart]);
+  }, [cart, isAuthenticated]);
 
   useEffect(() => {
-    localStorage.setItem("aqualife-wishlist", JSON.stringify(wishlist));
-  }, [wishlist]);
+    if (!isAuthenticated) {
+      localStorage.removeItem("aqualife-wishlist");
+      return;
+    }
+
+    localStorage.setItem(
+      "aqualife-wishlist",
+      JSON.stringify(wishlist),
+    );
+  }, [wishlist, isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setCart([]);
+      setWishlist([]);
+
+      setShowCart(false);
+      setShowWishlist(false);
+      setShowCheckout(false);
+      setShowOrderHistory(false);
+    }
+  }, [isAuthenticated]);
 
   function displayToast(message) {
     if (!message) {
@@ -161,7 +188,9 @@ function Home() {
   function removeFromCart(id) {
     const product = cart.find((item) => item.id === id);
 
-    setCart((currentCart) => currentCart.filter((item) => item.id !== id));
+    setCart((currentCart) =>
+      currentCart.filter((item) => item.id !== id),
+    );
 
     if (product) {
       displayToast(`${product.name} removed from cart`);
@@ -177,7 +206,9 @@ function Home() {
       if (isWishlisted) {
         displayToast(`${product.name} removed from wishlist`);
 
-        return currentWishlist.filter((item) => item.id !== product.id);
+        return currentWishlist.filter(
+          (item) => item.id !== product.id,
+        );
       }
 
       displayToast(`${product.name} added to wishlist`);
@@ -228,7 +259,9 @@ function Home() {
       currentWishlist.filter((item) => item.id !== product.id),
     );
 
-    displayToast(`${product.name} added to cart and removed from wishlist`);
+    displayToast(
+      `${product.name} added to cart and removed from wishlist`,
+    );
   }
 
   function handleCheckout() {
@@ -260,6 +293,33 @@ function Home() {
     setShowAuth(true);
   }
 
+  function handleOpenOrders() {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    setShowOrderHistory(true);
+  }
+
+  function handleCloseOrders() {
+    setShowOrderHistory(false);
+  }
+
+  function handleLogout(message) {
+    setCart([]);
+    setWishlist([]);
+
+    setShowCart(false);
+    setShowWishlist(false);
+    setShowCheckout(false);
+    setShowOrderHistory(false);
+
+    localStorage.removeItem("aqualife-cart");
+    localStorage.removeItem("aqualife-wishlist");
+
+    displayToast(message || "Logged out successfully.");
+  }
+
   function placeOrder(orderDetails) {
     const savedOrders = localStorage.getItem("aqualife_orders");
 
@@ -281,7 +341,10 @@ function Home() {
 
     const updatedOrders = [...orders, orderDetails];
 
-    localStorage.setItem("aqualife_orders", JSON.stringify(updatedOrders));
+    localStorage.setItem(
+      "aqualife_orders",
+      JSON.stringify(updatedOrders),
+    );
 
     setCart([]);
     setShowCheckout(false);
@@ -292,7 +355,10 @@ function Home() {
     displayToast("Order placed successfully!");
   }
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
 
   return (
     <>
@@ -303,8 +369,9 @@ function Home() {
         onSearchChange={setSearchQuery}
         onOpenCart={() => setShowCart(true)}
         onOpenWishlist={() => setShowWishlist(true)}
+        onOpenOrders={handleOpenOrders}
         onOpenAuth={handleOpenAuth}
-        onLogout={displayToast}
+        onLogout={handleLogout}
       />
 
       <main>
@@ -321,7 +388,9 @@ function Home() {
 
         <CountdownOffer />
 
-        <VideoPromo onPlay={() => setShowVideoModal(true)} />
+        <VideoPromo
+          onPlay={() => setShowVideoModal(true)}
+        />
 
         <Gallery
           onImageClick={(image) => {
@@ -370,6 +439,11 @@ function Home() {
         onPlaceOrder={placeOrder}
       />
 
+      <OrderHistory
+        show={showOrderHistory}
+        onClose={handleCloseOrders}
+      />
+
       <AuthModal
         show={showAuth}
         onClose={() => setShowAuth(false)}
@@ -377,7 +451,10 @@ function Home() {
         onSuccess={handleAuthSuccess}
       />
 
-      <Toast show={showToast} message={toastMessage} />
+      <Toast
+        show={showToast}
+        message={toastMessage}
+      />
 
       <VideoModal
         show={showVideoModal}

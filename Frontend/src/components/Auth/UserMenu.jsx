@@ -1,8 +1,12 @@
-import { FaUser, FaRightFromBracket } from "react-icons/fa6";
+import {
+  FaUser,
+  FaRightFromBracket,
+  FaBoxOpen,
+} from "react-icons/fa6";
 
 import useAuth from "../../hooks/useAuth";
 
-function UserMenu({ user, onLogout }) {
+function UserMenu({ user, onLogout, onOpenOrders }) {
   const { logout } = useAuth();
 
   function handleLogout() {
@@ -10,6 +14,12 @@ function UserMenu({ user, onLogout }) {
 
     if (result.success && onLogout) {
       onLogout(result.message);
+    }
+  }
+
+  function handleOrdersClick() {
+    if (onOpenOrders) {
+      onOpenOrders();
     }
   }
 
@@ -21,7 +31,21 @@ function UserMenu({ user, onLogout }) {
         <span>{user?.name || "User"}</span>
       </div>
 
-      <button type="button" className="user-menu-logout" onClick={handleLogout}>
+      <button
+        type="button"
+        className="user-menu-orders"
+        onClick={handleOrdersClick}
+      >
+        <FaBoxOpen />
+
+        <span>Order History</span>
+      </button>
+
+      <button
+        type="button"
+        className="user-menu-logout"
+        onClick={handleLogout}
+      >
         <FaRightFromBracket />
 
         <span>Logout</span>

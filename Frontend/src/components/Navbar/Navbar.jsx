@@ -22,6 +22,7 @@ function Navbar({
   onSearchChange,
   onOpenCart,
   onOpenWishlist,
+  onOpenOrders,
   onOpenAuth,
   onLogout,
 }) {
@@ -73,6 +74,15 @@ function Navbar({
     }
   }
 
+  function handleOrdersClick() {
+    closeMenu();
+    setShowSearch(false);
+
+    if (onOpenOrders) {
+      onOpenOrders();
+    }
+  }
+
   function handleAuthClick() {
     closeMenu();
     setShowSearch(false);
@@ -92,9 +102,9 @@ function Navbar({
   }
 
   return (
-    <header id="navbar">
+    <header id="navbar" className="navbar">
       <div className="nav-container">
-        <a href="#hero" className="nav-logo" onClick={closeMenu}>
+        <a href="#hero" className="logo" onClick={closeMenu}>
           <FaFishFins />
           <span>AquaLife</span>
         </a>
@@ -124,7 +134,11 @@ function Navbar({
           </a>
 
           {isAuthenticated ? (
-            <UserMenu user={user} onLogout={handleLogout} />
+            <UserMenu
+              user={user}
+              onLogout={handleLogout}
+              onOpenOrders={handleOrdersClick}
+            />
           ) : (
             <button
               type="button"
@@ -164,9 +178,7 @@ function Navbar({
 
           <button
             type="button"
-            className={`nav-action search-nav ${
-              showSearch ? "active" : ""
-            }`}
+            className={`nav-action search-nav ${showSearch ? "active" : ""}`}
             aria-label={showSearch ? "Close search" : "Open search"}
             aria-expanded={showSearch}
             onClick={toggleSearch}
@@ -201,9 +213,7 @@ function Navbar({
           >
             <FaCartShopping />
 
-            {cartCount > 0 && (
-              <span className="nav-count">{cartCount}</span>
-            )}
+            {cartCount > 0 && <span className="nav-count">{cartCount}</span>}
           </button>
 
           <button
