@@ -91,16 +91,16 @@ function CheckoutModal({ show, cart, total, onClose, onPlaceOrder }) {
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="checkout-overlay" onClick={onClose}>
       <div
-        className="modal-content checkout-modal"
+        className="checkout-modal"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           type="button"
           className="checkout-close"
-          onClick={onClose}
           aria-label="Close checkout"
+          onClick={onClose}
         >
           <FaXmark />
         </button>

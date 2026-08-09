@@ -1,9 +1,14 @@
 #newsletter {
   padding: 80px 0;
 
-  background: #f8f9fa;
+  background: var(--background);
+  color: var(--text-color);
 
   text-align: center;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .newsletter-container {
@@ -20,6 +25,8 @@
 
   font-size: 2.4rem;
   font-weight: 700;
+
+  transition: color 0.3s ease;
 }
 
 .newsletter-container p {
@@ -28,6 +35,8 @@
   color: var(--light-text);
 
   font-size: 0.95rem;
+
+  transition: color 0.3s ease;
 }
 
 #newsletter-form {
@@ -45,12 +54,12 @@
 
   padding: 0 75px 0 22px;
 
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   border-radius: 999px;
 
   outline: none;
 
-  background: var(--white);
+  background: var(--surface);
   color: var(--text-color);
 
   font-family: inherit;
@@ -58,7 +67,9 @@
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 #newsletter-form input::placeholder {
@@ -83,6 +94,7 @@
   height: 50px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -97,7 +109,8 @@
   cursor: pointer;
 
   transition:
-    background 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
@@ -120,6 +133,72 @@
   transform: scale(0.96);
 }
 
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+[data-theme="dark"] #newsletter {
+  background: var(--background);
+
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .newsletter-container h2 {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .newsletter-container p {
+  color: var(--light-text);
+}
+
+[data-theme="dark"] #newsletter-form input {
+  background: var(--surface);
+
+  border-color: var(--border-color);
+
+  color: #f8fafc;
+}
+
+[data-theme="dark"] #newsletter-form input::placeholder {
+  color: var(--light-text);
+}
+
+[data-theme="dark"] #newsletter-form input:focus {
+  border-color: var(--primary-color);
+
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.12);
+}
+
+/* ==========================================================
+   LIGHT MODE
+========================================================== */
+
+[data-theme="light"] #newsletter {
+  background: var(--background);
+
+  color: var(--text-color);
+}
+
+[data-theme="light"] .newsletter-container h2 {
+  color: var(--secondary-color);
+}
+
+[data-theme="light"] .newsletter-container p {
+  color: var(--light-text);
+}
+
+[data-theme="light"] #newsletter-form input {
+  background: var(--surface);
+
+  border-color: var(--border-color);
+
+  color: var(--text-color);
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
 @media (max-width: 720px) {
   #newsletter {
     padding: 65px 0;
@@ -141,6 +220,10 @@
     max-width: 100%;
   }
 }
+
+/* ==========================================================
+   MOBILE
+========================================================== */
 
 @media (max-width: 480px) {
   #newsletter {
@@ -179,6 +262,10 @@
     font-size: 0.85rem;
   }
 }
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
 
 @media (max-width: 320px) {
   #newsletter {

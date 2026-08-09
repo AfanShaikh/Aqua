@@ -2,6 +2,7 @@
   position: relative;
 
   display: flex;
+
   justify-content: center;
   align-items: center;
 
@@ -9,17 +10,22 @@
 
   background:
     url("https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=1600")
-      center / cover fixed;
+    center / cover fixed;
 
   overflow: hidden;
+
+  transition: background 0.3s ease;
 }
 
 .video-overlay {
   position: absolute;
+
   inset: 0;
 
   display: flex;
+
   flex-direction: column;
+
   justify-content: center;
   align-items: center;
 
@@ -28,13 +34,21 @@
   background: rgba(10, 25, 47, 0.7);
 
   color: var(--white);
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .video-overlay h2 {
   margin-bottom: 20px;
 
+  color: var(--white);
+
   font-size: 2.5rem;
   line-height: 1.2;
+
+  transition: color 0.3s ease;
 }
 
 .play-btn {
@@ -42,6 +56,7 @@
   height: 80px;
 
   display: flex;
+
   justify-content: center;
   align-items: center;
 
@@ -58,13 +73,25 @@
 
   cursor: pointer;
 
-  transition: var(--transition);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
   animation: pulse 2s infinite;
 }
 
 .play-btn:hover {
+  background: var(--primary-hover);
+
   transform: scale(1.08);
+}
+
+.play-btn:focus-visible {
+  outline: 3px solid rgba(255, 107, 53, 0.35);
+
+  outline-offset: 4px;
 }
 
 @keyframes pulse {
@@ -89,6 +116,50 @@
   border-radius: 12px;
 }
 
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+[data-theme="dark"] #video-promo {
+  background:
+    url("https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=1600")
+    center / cover fixed;
+}
+
+[data-theme="dark"] .video-overlay {
+  background: rgba(2, 8, 23, 0.78);
+
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .video-overlay h2 {
+  color: #f8fafc;
+}
+
+/* ==========================================================
+   LIGHT MODE
+========================================================== */
+
+[data-theme="light"] #video-promo {
+  background:
+    url("https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=1600")
+    center / cover fixed;
+}
+
+[data-theme="light"] .video-overlay {
+  background: rgba(10, 25, 47, 0.7);
+
+  color: #ffffff;
+}
+
+[data-theme="light"] .video-overlay h2 {
+  color: #ffffff;
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
 @media (max-width: 720px) {
   #video-promo {
     height: 320px;
@@ -111,6 +182,10 @@
     font-size: 1.6rem;
   }
 }
+
+/* ==========================================================
+   MOBILE
+========================================================== */
 
 @media (max-width: 480px) {
   #video-promo {
@@ -138,6 +213,10 @@
     border-radius: 10px;
   }
 }
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
 
 @media (max-width: 320px) {
   #video-promo {

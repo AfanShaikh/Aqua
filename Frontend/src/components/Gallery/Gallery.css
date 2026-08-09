@@ -21,7 +21,9 @@
 
   box-shadow: var(--shadow-sm);
 
-  transition: var(--transition);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .gallery-img:hover {
@@ -39,11 +41,16 @@
   grid-column: span 2;
 }
 
+/* ==========================================================
+   LIGHTBOX
+========================================================== */
+
 .lightbox {
   position: fixed;
   inset: 0;
 
   display: flex;
+
   justify-content: center;
   align-items: center;
 
@@ -54,6 +61,8 @@
   backdrop-filter: blur(6px);
 
   z-index: 9999;
+
+  transition: background-color 0.3s ease;
 }
 
 .lightbox-content {
@@ -65,6 +74,12 @@
   border-radius: 16px;
 
   box-shadow: var(--shadow-lg);
+
+  background: var(--surface);
+
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .lightbox-content img {
@@ -76,6 +91,10 @@
   object-fit: contain;
 }
 
+/* ==========================================================
+   LIGHTBOX CLOSE BUTTON
+========================================================== */
+
 .close-lightbox {
   position: absolute;
 
@@ -86,12 +105,16 @@
   height: 46px;
 
   display: flex;
+
   justify-content: center;
   align-items: center;
 
+  padding: 0;
+
+  border: 1px solid var(--border-color);
   border-radius: 50%;
 
-  background: var(--white);
+  background: var(--surface);
 
   color: var(--text-color);
 
@@ -101,16 +124,93 @@
 
   box-shadow: var(--shadow-md);
 
-  transition: var(--transition);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
 
 .close-lightbox:hover {
   background: var(--primary-color);
 
+  border-color: var(--primary-color);
+
   color: var(--white);
 
   transform: rotate(90deg);
 }
+
+.close-lightbox:focus-visible {
+  outline: 3px solid rgba(255, 107, 53, 0.3);
+
+  outline-offset: 3px;
+}
+
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+[data-theme="dark"] .lightbox {
+  background: rgba(2, 8, 23, 0.9);
+}
+
+[data-theme="dark"] .lightbox-content {
+  background: #0f172a;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .close-lightbox {
+  background: #1e293b;
+
+  border-color: #374151;
+
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .close-lightbox:hover {
+  background: var(--primary-color);
+
+  border-color: var(--primary-color);
+
+  color: #ffffff;
+}
+
+/* ==========================================================
+   LIGHT MODE
+========================================================== */
+
+[data-theme="light"] .lightbox {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+[data-theme="light"] .lightbox-content {
+  background: var(--surface);
+
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="light"] .close-lightbox {
+  background: var(--surface);
+
+  border-color: var(--border-color);
+
+  color: var(--text-color);
+}
+
+[data-theme="light"] .close-lightbox:hover {
+  background: var(--primary-color);
+
+  border-color: var(--primary-color);
+
+  color: var(--white);
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
 
 @media (max-width: 720px) {
   .masonry-grid {
@@ -149,6 +249,10 @@
     font-size: 1.2rem;
   }
 }
+
+/* ==========================================================
+   MOBILE
+========================================================== */
 
 @media (max-width: 480px) {
   .masonry-grid {
@@ -190,6 +294,10 @@
     font-size: 1rem;
   }
 }
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
 
 @media (max-width: 320px) {
   .masonry-grid {

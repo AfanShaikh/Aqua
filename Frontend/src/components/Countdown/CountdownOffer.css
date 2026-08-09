@@ -1,22 +1,41 @@
+/* ==========================================================
+   COUNTDOWN OFFER SECTION
+========================================================== */
+
 #countdown-offer {
   padding: 85px 0;
 
-  background: linear-gradient(
-    135deg,
-    var(--secondary-color),
-    #112240
-  );
+  background:
+    linear-gradient(
+      135deg,
+      var(--secondary-color),
+      #112240
+    );
 
   color: var(--white);
 
   text-align: center;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
+
+/* ==========================================================
+   SECTION TITLE
+========================================================== */
 
 #countdown-offer .section-title {
   margin-bottom: 16px;
 
   color: var(--white);
+
+  transition: color 0.3s ease;
 }
+
+/* ==========================================================
+   DESCRIPTION
+========================================================== */
 
 #countdown-offer p {
   max-width: 600px;
@@ -24,12 +43,20 @@
   margin: 0 auto 35px;
 
   color: rgba(255, 255, 255, 0.8);
+
+  transition: color 0.3s ease;
 }
+
+/* ==========================================================
+   TIMER
+========================================================== */
 
 .timer {
   display: flex;
+
   justify-content: center;
   align-items: center;
+
   flex-wrap: wrap;
 
   gap: 20px;
@@ -37,16 +64,23 @@
   margin-bottom: 40px;
 }
 
+/* ==========================================================
+   TIME BOX
+========================================================== */
+
 .time-box {
   width: 96px;
   height: 96px;
 
   display: flex;
+
   flex-direction: column;
+
   justify-content: center;
   align-items: center;
 
   border: 1px solid rgba(255, 255, 255, 0.15);
+
   border-radius: 50%;
 
   background: rgba(255, 255, 255, 0.08);
@@ -55,7 +89,11 @@
 
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
 
-  transition: var(--transition);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .time-box:hover {
@@ -65,21 +103,35 @@
 }
 
 .time-box span {
+  color: var(--white);
+
   font-size: 1.9rem;
   font-weight: 700;
+
   line-height: 1;
+
+  transition: color 0.3s ease;
 }
 
 .time-box p {
   margin-top: 7px;
+  margin-bottom: 0;
 
   color: rgba(255, 255, 255, 0.8);
 
   font-size: 0.75rem;
   font-weight: 500;
+
   letter-spacing: 1px;
+
   text-transform: uppercase;
+
+  transition: color 0.3s ease;
 }
+
+/* ==========================================================
+   CTA BUTTON
+========================================================== */
 
 #countdown-offer .btn {
   min-width: 180px;
@@ -87,11 +139,108 @@
   padding: 14px 34px;
 
   box-shadow: var(--shadow-md);
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 #countdown-offer .btn:hover {
   transform: translateY(-3px);
 }
+
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+[data-theme="dark"] #countdown-offer {
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #020617
+    );
+
+  color: #f8fafc;
+}
+
+[data-theme="dark"] #countdown-offer .section-title {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] #countdown-offer p {
+  color: rgba(248, 250, 252, 0.78);
+}
+
+[data-theme="dark"] .time-box {
+  border-color: rgba(255, 255, 255, 0.12);
+
+  background: rgba(255, 255, 255, 0.06);
+
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .time-box:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .time-box span {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .time-box p {
+  color: rgba(248, 250, 252, 0.75);
+}
+
+/* ==========================================================
+   LIGHT MODE
+========================================================== */
+
+[data-theme="light"] #countdown-offer {
+  background:
+    linear-gradient(
+      135deg,
+      var(--secondary-color),
+      #112240
+    );
+
+  color: #ffffff;
+}
+
+[data-theme="light"] #countdown-offer .section-title {
+  color: #ffffff;
+}
+
+[data-theme="light"] #countdown-offer p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+[data-theme="light"] .time-box {
+  border-color: rgba(255, 255, 255, 0.18);
+
+  background: rgba(255, 255, 255, 0.09);
+
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme="light"] .time-box:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+[data-theme="light"] .time-box span {
+  color: #ffffff;
+}
+
+[data-theme="light"] .time-box p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
 
 @media (max-width: 720px) {
   #countdown-offer {
@@ -119,6 +268,10 @@
     font-size: 0.68rem;
   }
 }
+
+/* ==========================================================
+   MOBILE
+========================================================== */
 
 @media (max-width: 480px) {
   #countdown-offer {
@@ -150,6 +303,7 @@
     margin-top: 5px;
 
     font-size: 0.58rem;
+
     letter-spacing: 0.7px;
   }
 
@@ -161,6 +315,10 @@
     font-size: 0.9rem;
   }
 }
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
 
 @media (max-width: 320px) {
   #countdown-offer {
@@ -184,6 +342,7 @@
     margin-top: 4px;
 
     font-size: 0.5rem;
+
     letter-spacing: 0.5px;
   }
 

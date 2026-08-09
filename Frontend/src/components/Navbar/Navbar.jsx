@@ -94,12 +94,7 @@ function Navbar({
   return (
     <header id="navbar">
       <div className="nav-container">
-        <a
-          href="#hero"
-          className="logo"
-          aria-label="AquaLife home"
-          onClick={closeMenu}
-        >
+        <a href="#hero" className="nav-logo" onClick={closeMenu}>
           <FaFishFins />
           <span>AquaLife</span>
         </a>
@@ -169,7 +164,9 @@ function Navbar({
 
           <button
             type="button"
-            className={`nav-action search-nav ${showSearch ? "active" : ""}`}
+            className={`nav-action search-nav ${
+              showSearch ? "active" : ""
+            }`}
             aria-label={showSearch ? "Close search" : "Open search"}
             aria-expanded={showSearch}
             onClick={toggleSearch}
@@ -204,7 +201,9 @@ function Navbar({
           >
             <FaCartShopping />
 
-            {cartCount > 0 && <span className="nav-count">{cartCount}</span>}
+            {cartCount > 0 && (
+              <span className="nav-count">{cartCount}</span>
+            )}
           </button>
 
           <button

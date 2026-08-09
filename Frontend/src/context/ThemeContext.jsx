@@ -22,8 +22,13 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     const theme = isDarkMode ? "dark" : "light";
 
+    /* Apply theme to body */
+    document.body.classList.toggle("dark-mode", isDarkMode);
+
+    /* Keep data-theme available if any component needs it */
     document.documentElement.setAttribute("data-theme", theme);
 
+    /* Save user's preference */
     localStorage.setItem("aqualife-theme", theme);
   }, [isDarkMode]);
 

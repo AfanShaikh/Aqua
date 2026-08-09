@@ -1,6 +1,11 @@
 import "./Wishlist.css";
 
-import { FaHeart, FaTrash, FaCartShopping } from "react-icons/fa6";
+import {
+  FaHeart,
+  FaTrash,
+  FaCartShopping,
+  FaXmark,
+} from "react-icons/fa6";
 
 function WishlistModal({ show, wishlist, onClose, onRemove, onAddToCart }) {
   if (!show) {
@@ -8,9 +13,16 @@ function WishlistModal({ show, wishlist, onClose, onRemove, onAddToCart }) {
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      className="modal-overlay wishlist-overlay"
+      role="presentation"
+      onClick={onClose}
+    >
       <div
         className="modal-content wishlist-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="wishlist-title"
         onClick={(event) => event.stopPropagation()}
       >
         <button
@@ -19,7 +31,7 @@ function WishlistModal({ show, wishlist, onClose, onRemove, onAddToCart }) {
           onClick={onClose}
           aria-label="Close wishlist"
         >
-          ×
+          <FaXmark />
         </button>
 
         <div className="wishlist-header">
@@ -28,7 +40,7 @@ function WishlistModal({ show, wishlist, onClose, onRemove, onAddToCart }) {
           </div>
 
           <div>
-            <h2>My Wishlist</h2>
+            <h2 id="wishlist-title">My Wishlist</h2>
 
             <p>
               {wishlist.length === 0

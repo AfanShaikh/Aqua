@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import useAuth from "../hooks/useAuth";
-import { useTheme } from "../context/ThemeContext";
 
 import Navbar from "../components/Navbar/Navbar";
 import Hero from "../components/Hero/Hero";
@@ -25,7 +24,6 @@ import WishlistModal from "../components/Wishlist/WishlistModal";
 
 function Home() {
   const { isAuthenticated } = useAuth();
-  const { isDarkMode, toggleTheme } = useTheme();
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -302,9 +300,7 @@ function Home() {
         cartCount={cart.length}
         wishlistCount={wishlist.length}
         searchQuery={searchQuery}
-        isDarkMode={isDarkMode}
         onSearchChange={setSearchQuery}
-        onToggleTheme={toggleTheme}
         onOpenCart={() => setShowCart(true)}
         onOpenWishlist={() => setShowWishlist(true)}
         onOpenAuth={handleOpenAuth}

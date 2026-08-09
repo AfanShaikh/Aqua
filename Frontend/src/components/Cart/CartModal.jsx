@@ -23,15 +23,17 @@ function CartModal({
   );
 
   return (
-    <div className="modal-overlay">
+    <div
+      className="cart-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-title"
+      onClick={onClose}
+    >
       <div
-        className="modal-content cart-modal"
+        className="cart-modal"
         onClick={(event) => event.stopPropagation()}
       >
-        {/* ==================================================
-            CLOSE BUTTON
-        ================================================== */}
-
         <button
           type="button"
           className="cart-close"
@@ -41,23 +43,10 @@ function CartModal({
           <FaXmark />
         </button>
 
-        {/* ==================================================
-            CART BODY
-        ================================================== */}
-
         <div className="cart-body">
-          {/* ==================================================
-              HEADER
-          ================================================== */}
-
           <div className="cart-header">
-            <h2>Your Cart</h2>
-
+            <h2 id="cart-title">Your Cart</h2>
           </div>
-
-          {/* ==================================================
-              EMPTY CART
-          ================================================== */}
 
           {cart.length === 0 ? (
             <div className="empty-cart">
@@ -68,8 +57,8 @@ function CartModal({
               <h3>Your cart is empty</h3>
 
               <p>
-                Add your favorite aquarium products to your cart
-                and come back when you're ready to checkout.
+                Add your favorite aquarium products to your cart and come back
+                when you're ready to checkout.
               </p>
 
               <button
@@ -82,10 +71,6 @@ function CartModal({
             </div>
           ) : (
             <>
-              {/* ==================================================
-                  CART ITEMS
-              ================================================== */}
-
               <div className="cart-items">
                 {cart.map((item) => (
                   <CartItem
@@ -97,10 +82,6 @@ function CartModal({
                   />
                 ))}
               </div>
-
-              {/* ==================================================
-                  CART FOOTER
-              ================================================== */}
 
               <div className="cart-footer">
                 <h3>

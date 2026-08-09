@@ -23,5 +23,7 @@
     transform: none;
 
     transition: none;
+
+    will-change: auto;
   }
 }
