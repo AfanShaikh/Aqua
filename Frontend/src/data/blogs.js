@@ -2,7 +2,7 @@ const blogs = [
   {
     id: 1,
     image:
-      "https://images.unsplash.com/photo-1495594059084-33752639b9c3?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0",
+      "https://i.pinimg.com/736x/33/8f/70/338f702b73bd37b3a795eab5757b51e9.jpg",
     date: "Oct 24, 2025",
     title: "How to care for your Betta Fish",
     description:

@@ -1,5 +1,4 @@
 import "./Product.css";
-
 import { useEffect, useMemo, useState } from "react";
 
 import products from "../../data/products";
@@ -19,7 +18,8 @@ function Products({
     const normalizedSearch = searchQuery.trim().toLowerCase();
 
     return products.filter((product) => {
-      const matchesFilter = filter === "all" || product.category === filter;
+      const matchesFilter =
+        filter === "all" || product.category === filter;
 
       if (!normalizedSearch) {
         return matchesFilter;
@@ -34,13 +34,17 @@ function Products({
         .join(" ")
         .toLowerCase();
 
-      return matchesFilter && searchableText.includes(normalizedSearch);
+      return (
+        matchesFilter &&
+        searchableText.includes(normalizedSearch)
+      );
     });
   }, [filter, searchQuery]);
 
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
   const hasMoreProducts = visibleCount < filteredProducts.length;
+  const canLoadLess = visibleCount > 8;
 
   useEffect(() => {
     setVisibleCount(8);
@@ -50,11 +54,15 @@ function Products({
     setVisibleCount((currentCount) => currentCount + 4);
   }
 
+  function handleLoadLess() {
+    setVisibleCount(8);
+  }
+
   return (
-    <section id="top-selling" className="section-padding">
+    <section className="products-section">
       <FadeUp>
         <div className="products-header">
-          <h2 className="products-title">Top Selling Products</h2>
+          <h2>Top Selling Products</h2>
 
           <p className="products-subtitle">
             Discover our most popular aquarium fish, tanks, and aquatic
@@ -67,7 +75,9 @@ function Products({
         <div className="filter-container">
           <button
             type="button"
-            className={`filter-btn ${filter === "all" ? "active" : ""}`}
+            className={`filter-btn ${
+              filter === "all" ? "active" : ""
+            }`}
             onClick={() => setFilter("all")}
           >
             All
@@ -75,7 +85,9 @@ function Products({
 
           <button
             type="button"
-            className={`filter-btn ${filter === "fish" ? "active" : ""}`}
+            className={`filter-btn ${
+              filter === "fish" ? "active" : ""
+            }`}
             onClick={() => setFilter("fish")}
           >
             Fish
@@ -83,7 +95,9 @@ function Products({
 
           <button
             type="button"
-            className={`filter-btn ${filter === "tanks" ? "active" : ""}`}
+            className={`filter-btn ${
+              filter === "tanks" ? "active" : ""
+            }`}
             onClick={() => setFilter("tanks")}
           >
             Tanks &amp; Decor
@@ -99,7 +113,9 @@ function Products({
                 key={product.id}
                 product={product}
                 onAddToCart={onAddToCart}
-                isWishlisted={wishlist.some((item) => item.id === product.id)}
+                isWishlisted={wishlist.some(
+                  (item) => item.id === product.id
+                )}
                 onToggleWishlist={onToggleWishlist}
               />
             ))}
@@ -108,21 +124,35 @@ function Products({
           <div className="products-empty">
             <h3>No products found</h3>
 
-            <p>Try searching for a different product or category.</p>
+            <p>
+              Try searching for a different product or category.
+            </p>
           </div>
         )}
       </FadeUp>
 
-      {hasMoreProducts && (
+      {(hasMoreProducts || canLoadLess) && (
         <FadeUp>
           <div className="load-more-container">
-            <button
-              type="button"
-              className="btn btn-outline load-more-btn"
-              onClick={handleLoadMore}
-            >
-              Load More
-            </button>
+            {hasMoreProducts && (
+              <button
+                type="button"
+                className="btn btn-outline load-more-btn"
+                onClick={handleLoadMore}
+              >
+                Load More
+              </button>
+            )}
+
+            {canLoadLess && (
+              <button
+                type="button"
+                className="btn btn-outline load-more-btn"
+                onClick={handleLoadLess}
+              >
+                Load Less
+              </button>
+            )}
           </div>
         </FadeUp>
       )}
