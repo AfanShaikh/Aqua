@@ -209,49 +209,49 @@ The interface uses a dark aquarium-inspired visual system with:
 
 ### Homepage
 
-![AquaLife Hero](src/assets/screenshots/hero.png)
+![AquaLife Hero](Frontend/src/assets/screenshots/hero.png)
 
 ### Categories
 
-![AquaLife Categories](src/assets/screenshots/categories.png)
+![AquaLife Categories](Frontend/src/assets/screenshots/categories.png)
 
 ### Top Selling Products
 
-![Top Selling Products](src/assets/screenshots/top-selling-products.png)
+![Top Selling Products](Frontend/src/assets/screenshots/top-selling-products.png)
 
 ### Promotional Offer
 
-![Promotional Offer](src/assets/screenshots/offer-section.png)
+![Promotional Offer](Frontend/src/assets/screenshots/offer-section.png)
 
 ### Project Gallery
 
-![Project Gallery](src/assets/screenshots/project-gallery.png)
+![Project Gallery](Frontend/src/assets/screenshots/project-gallery.png)
 
 ### Blog
 
-![AquaLife Blog](src/assets/screenshots/blog.png)
+![AquaLife Blog](Frontend/src/assets/screenshots/blog.png)
 
 ### Authentication
 
-![Create Account](src/assets/screenshots/signup.png)
+![Create Account](Frontend/src/assets/screenshots/signup.png)
 
-![Sign In](src/assets/screenshots/signin.png)
+![Sign In](Frontend/src/assets/screenshots/signin.png)
 
 ### Wishlist
 
-![Wishlist](src/assets/screenshots/wishlist.png)
+![Wishlist](Frontend/src/assets/screenshots/wishlist.png)
 
 ### Cart
 
-![Cart](src/assets/screenshots/cart.png)
+![Cart](Frontend/src/assets/screenshots/cart.png)
 
 ### Order History
 
-![Order History](src/assets/screenshots/order-history.png)
+![Order History](Frontend/src/assets/screenshots/order-history.png)
 
 ### Order Details
 
-![Order Details](src/assets/screenshots/order-details.png)
+![Order Details](Frontend/src/assets/screenshots/order-details.png)
 
 ## Responsive Design
 
