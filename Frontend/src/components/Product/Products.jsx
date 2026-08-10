@@ -59,7 +59,7 @@ function Products({
   }
 
   return (
-    <section className="products-section">
+    <section className="products-section" id="top-selling">
       <FadeUp>
         <div className="products-header">
           <h2>Top Selling Products</h2>
